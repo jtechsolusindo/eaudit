@@ -1,0 +1,49 @@
+﻿@{
+    ViewData["placeHolderFilter"] = "Pencarian Jadwal";
+}
+
+<partial name="~/Views/Shared/_PageHeaderTitle.cshtml" />
+
+<div class="content">
+    <div class="container-fluid">
+
+        <partial view-data="ViewData" name="~/Views/Shared/Filter/Filter_1Field.cshtml" />
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-default card-sm">
+
+                    <div class="card-body card-body-sm">
+
+
+
+                        <table class="table table-bordered table-striped table-responsive-sm" style="width:100%" id="grid">
+                            <thead>
+                                <tr>
+                                     
+                                    <th>NO</th>
+                                    <th>TANGGAL</th>
+                                    <th>JAM</th>
+                                    <th>AUDITEE/PIHAK TERKAIT</th>
+                                    <th>AUDITOR</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<partial name="~/Views/Audit/Audit_JobSchedule_Form.cshtml" />
+
+@section JavaScript
+{
+<script type="text/javascript">
+     let role="@ViewData["Role"]";
+     let id_auditor="@ViewData["IdAuditor"]";
+</script>
+<script type="text/javascript" src="@Url.Content("/js/modules/audit_jobschedule.js")"></script>
+}

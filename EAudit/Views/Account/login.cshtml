@@ -1,0 +1,51 @@
+﻿@page
+@model EAudit.Views.Login.LoginModel
+@{
+    Layout = "/Views/Shared/_Login.cshtml";
+}
+<div class="login-box">
+    <div class="login-logo">
+        <a href="~/Account/Login"><b>Audit Internal</b> KPM</a>
+    </div>
+    <!-- /.login-logo -->
+    <div class="card">
+        <div class="card-body login-card-body">
+            @if (TempData["err_message"] != null)
+            {
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>@TempData["err_message"].ToString()</strong>
+                </div>
+            }
+
+            <p class="login-box-msg">Sign in to start your session</p>
+
+            <form asp-action="doLogin" asp-controller="account" method="post">
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" name="username" id="username" placeholder="Email">
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-user"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    <input type="password" class="form-control" name="password" id="password" placeholder="Password">
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-lock"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-4">
+                        <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+                    </div>
+                    <!-- /.col -->
+                </div>
+            </form>
+
+        </div>
+        <!-- /.login-card-body -->
+    </div>
+</div>
+<!-- /.login-box -->

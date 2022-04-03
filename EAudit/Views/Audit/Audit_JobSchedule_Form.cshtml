@@ -1,0 +1,81 @@
+﻿<div class="modal fade" role="dialog" id="modalPenugasan" data-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modalHeader">Default Modal</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" method="post" role="form" id="formTambah">
+                    @Html.AntiForgeryToken()
+                     <input type="hidden" name="txtID" class="form-control form-control-sm" id="txtID">
+                     <div class="form-group row form-group-sm">
+                        <label for="txtJamMulai" class="col-sm-3 col-form-label col-form-label-sm">Tanggal Kegiatan</label>
+                        <div class="col-sm-9">
+                            <div class="input-group">
+                                <input id="txtTglKegiatan" name="txtTglKegiatan" type="text" autocomplete="off" class="form-control form-control-sm datepicker">
+                                <div class="input-group-text">
+                                    <span class="fa fa-calendar"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                   
+                    <div class="form-group row form-group-sm">
+                        <label for="txtJamMulai" class="col-sm-3 col-form-label col-form-label-sm">Jam Mulai</label>
+                        <div class="col-sm-9">
+                            <div class="input-group">
+                                <input id="txtJamMulai" name="txtJamMulai" type="text" autocomplete="off" class="form-control form-control-sm timepicker">
+                                <div class="input-group-text">
+                                    <span class="fa fa-calendar"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row form-group-sm">
+                        <label for="txtJamAkhir" class="col-sm-3 col-form-label col-form-label-sm">Jam Selesai</label>
+                        <div class="col-sm-9">
+                            <div class="input-group">
+                                <input id="txtJamAkhir" name="txtJamAkhir" type="text" autocomplete="off" class="form-control form-control-sm timepicker">
+                                <div class="input-group-text">
+                                    <span class="fa fa-calendar"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                     <div class="form-group row form-group-sm">
+                        <label for="txtUnitAuditee" class="col-sm-3 col-form-label col-form-label-sm">Auditee</label>
+                        <div class="col-sm-9">
+                            <select style="width:100%;" class="form-control select2 select2bs4" id="txtIdAuditee" name="txtIdAuditee">
+                                <option value=""> - </option>
+                            </select>
+                        </div>
+                    </div>
+
+                     <div class="form-group row form-group-sm">
+                        <label for="txtUnitAuditee" class="col-sm-3 col-form-label col-form-label-sm">Audiator</label>
+                        <div class="col-sm-9">
+                            <select style="width:100%;" class="form-control select2 select2bs4" id="txtIdAuditor" name="txtIdAuditor[]" multiple="multiple">
+                              
+                            </select>
+                        </div>
+                    </div>
+
+                    
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" id="btnSave" class="btn btn-success btn-sm">Simpan</button>
+                <button type="button" id="btnCancel" class="btn btn-default btn-sm">Batal</button>
+            </div>
+
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+@section JavaScript
+{
+
+}

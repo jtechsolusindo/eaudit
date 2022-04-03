@@ -1,0 +1,52 @@
+﻿<div class="modal fade" role="dialog" id="modalAuditee" data-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modalHeader">Default Modal</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" method="post" role="form" id="formTambah">
+                    @Html.AntiForgeryToken()
+                    <div class="form-group row form-group-sm">
+                        <label for="txtUnitAuditee" class="col-sm-3 col-form-label col-form-label-sm">Unit Auditee</label>
+                        <div class="col-sm-9">
+                            <select style="width:100%;" class="form-control select2 select2bs4" id="txtUnitAuditee" name="txtUnitAuditee">
+                                <option value=""> - </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group row form-group-sm">
+                        <label for="txtSingkatanResmi" class="col-sm-3 col-form-label col-form-label-sm">Singkatan Resmi</label>
+                        <div class="col-sm-9">
+                            <input type="hidden" name="txtID" class="form-control form-control-sm" id="txtID">
+                            <input type="text" name="txtSingkatanResmi" class="form-control form-control-sm" id="txtSingkatanResmi"
+                                   placeholder="Singkatan Resmi">
+                        </div>
+                    </div>
+
+                    <div class="form-group row form-group-sm">
+                        <label for="txtNamaAuditee" class="col-sm-3 col-form-label col-form-label-sm">Nama Auditee</label>
+                        <div class="col-sm-9">
+                            <input type="text" name="txtNamaAuditee" class="form-control form-control-sm" id="txtNamaAuditee"
+                                   placeholder="Nama Auditee">
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" id="btnSave" class="btn btn-success btn-sm">Simpan</button>
+                <button type="button" id="btnCancel" class="btn btn-default btn-sm">Batal</button>
+            </div>
+
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+@section JavaScript
+{
+
+}

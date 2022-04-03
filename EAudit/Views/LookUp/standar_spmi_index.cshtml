@@ -1,0 +1,51 @@
+﻿@{
+    ViewData["placeHolderFilter"] = "Pencarian berdasarkan Nama/Unit/Kode";
+}
+
+<partial name="~/Views/Shared/_PageHeaderTitle.cshtml" />
+<style>
+div.dataTables_wrapper {
+        width: 1000px;
+        margin: 0 auto;
+    }
+</style>
+
+<div class="content">
+    <div class="container-fluid">
+
+        <partial view-data="ViewData" name="~/Views/Shared/Filter/Filter_1Field.cshtml" />
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-default card-sm">
+
+                    <div class="card-body card-body-sm">
+                        <table class="table table-bordered table-striped table-responsive-sm" style="width:100%" id="gridStandarSPMI">
+                            <thead>
+                                <tr>
+                                    <th>NO</th>
+                                    <th>NO STANDAR</th>
+                                    <th>PERNYATAAN</th>
+                                    <th>INDIKATOR</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<partial name="~/Views/LookUp/standar_spmi_modal.cshtml" />
+
+@section JavaScript
+{
+<script type="text/javascript">
+
+</script>
+<script type="text/javascript" src="@Url.Content("/js/modules/standar_spmi.js")"></script>
+
+@*<script type="text/javascript" src="@Url.Content("/js/modules/auditee_edit.js")"></script>*@
+}
