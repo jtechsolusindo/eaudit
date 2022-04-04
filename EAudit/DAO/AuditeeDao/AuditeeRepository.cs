@@ -1,4 +1,5 @@
-﻿using EAudit.Models;
+﻿using EAudit.DAO.AuditorDao;
+using EAudit.Models;
 using Microsoft.Extensions.Options;
 using System.Collections;
 using System.Collections.Generic;
@@ -9,13 +10,18 @@ namespace EAudit.DAO.AuditeeDao
 {
     public class AuditeeRepository : IAuditee
     {
+        private IAuditor _auditorRepository;
         public IOptions<AppSettings> _options;
 
-        public AuditeeRepository(IOptions<AppSettings> options)
+        public AuditeeRepository(IOptions<AppSettings> options, IAuditor auditorRepository)
         {
             _options = options;
+            _auditorRepository = auditorRepository;
         }
-        public async Task<List<Auditee>> getAuditeeList(string search)
+
+        
+
+        public async Task<List<Auditee>> AuditeeList(string search, string role, string id_auditor, string id_auditee)
         {
             DBOutput output = new DBOutput();
             output.status = true;
@@ -26,6 +32,14 @@ namespace EAudit.DAO.AuditeeDao
                             JOIN siatmax.MST_UNIT u ON a.ID_UNIT = u.ID_UNIT
                             JOIN simka.MST_KARYAWAN k on u.NPP = k.NPP
                             WHERE 1=1 ";
+            
+            if (role == "Auditor")
+            {
+                Auditor filter = new Auditor();
+                filter.ID = int.Parse(id_auditor);
+                Auditor data = await _auditorRepository.AuditorRow(filter);
+                query  += @" AND a.ID_UNIT=" + data.ID_UNIT;
+            }
             query += @" AND (a.NAMA LIKE '%' + COALESCE(@search,'%') + '%' OR
                     k.NAMA_LENGKAP_GELAR LIKE '%' + COALESCE(@search,'%') + '%' OR
                     u.NAMA_UNIT LIKE '%' + COALESCE(@search,'%') + '%' OR
@@ -36,6 +50,65 @@ namespace EAudit.DAO.AuditeeDao
             SqlParameter[] parameters = listParameters.ToArray(typeof(SqlParameter)) as SqlParameter[];
             List<Auditee> list = await dbAccess.ExecuteAsync<Auditee>(query, parameters);
             return list;
+        }
+
+        public async Task<Auditee> AuditeeRow(Auditee filter)
+        {
+            DBOutput output = new DBOutput();
+            output.status = true;
+            SqlParameter[] parameters = {
+                new SqlParameter("@id", System.Data.SqlDbType.Int,10, filter.ID.Value.ToString())
+            };
+
+            DBAccess dbAccess = new DBAccess(_options);
+            List<Auditee> list = await dbAccess.ExecuteReaderAsync<Auditee>("SP_AUDITEE_ROW", parameters);
+
+            return list[0];
+        }
+
+      
+
+        public async void AuditeeSave(Auditee data)
+        {
+            DBOutput output = new DBOutput();
+            output.status = true;
+
+            DBAccess dbAccess = new DBAccess(_options);
+            if (data.ID.HasValue)
+            {
+
+                SqlParameter[] parameters = {
+                new SqlParameter("@id", System.Data.SqlDbType.VarChar, 10, data.ID.Value.ToString()),
+                new SqlParameter("@id_unit", System.Data.SqlDbType.VarChar, 10, data.ID_UNIT.Value.ToString()),
+                new SqlParameter("@singkatan", System.Data.SqlDbType.VarChar, 50, data.SINGKATAN),
+                new SqlParameter("@nama", System.Data.SqlDbType.VarChar, 50, data.NAMA)
+            };
+                await dbAccess.ExecuteQuery("SP_AUDITEE_UPDATE", parameters);
+            }
+            else
+            {
+                SqlParameter[] parameters = {
+                new SqlParameter("@id_unit", System.Data.SqlDbType.VarChar, 10, data.ID_UNIT.Value.ToString()),
+                new SqlParameter("@singkatan", System.Data.SqlDbType.VarChar, 50, data.SINGKATAN),
+                new SqlParameter("@nama", System.Data.SqlDbType.VarChar, 50, data.NAMA)
+            };
+
+                await dbAccess.ExecuteQuery("SP_AUDITEE_SAVE", parameters);
+            }
+
+        }
+
+        public async void AuditeeDelete(Auditee data)
+        {
+            DBOutput output = new DBOutput();
+            output.status = true;
+
+            DBAccess dbAccess = new DBAccess(_options);
+            SqlParameter[] parameters = {
+                new SqlParameter("@id", System.Data.SqlDbType.VarChar, 10, data.ID.Value.ToString()),
+            };
+
+            await dbAccess.ExecuteQuery("SP_AUDITEE_DELETE", parameters);
         }
     }
 }

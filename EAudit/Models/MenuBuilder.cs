@@ -44,7 +44,7 @@ namespace EAudit.Models
             List<Modules> modules = new List<Modules>();
             List<SubModules> subModules_01 = new List<SubModules>();
             subModules_01.Add(new SubModules { menuTitle = "Auditor", menuIcon = "fa-user", menuLink = "/auditor/data" });
-            subModules_01.Add(new SubModules { menuTitle = "Auditee", menuIcon = "fa-user", menuLink = "/configuration/person/auditee" });
+            subModules_01.Add(new SubModules { menuTitle = "Auditee", menuIcon = "fa-user", menuLink = "/auditee/data" });
 
             List<SubModules> subModules_Report = new List<SubModules>();
             subModules_Report.Add(new SubModules { menuTitle = "Temuan Audit", menuIcon = "fa-user-tie", menuLink = "/audit/temuan" });

@@ -19,6 +19,7 @@ namespace EAudit.Helpers
             userLoggedIn.role = claims[3].Value;
             userLoggedIn.id_auditor = claims[4].Value;
             userLoggedIn.id_auditee = claims[5].Value;
+            userLoggedIn.prodi = claims[6].Value;
             return userLoggedIn;
         }
 

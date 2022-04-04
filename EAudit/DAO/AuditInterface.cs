@@ -6,6 +6,9 @@ namespace EAudit.DAO
 {
     public interface AuditInterface
     {
+        // Dashboard
+        public Task<List<Dashboard>> DashboardList();
+
         // Temuan Audit
         public Task<List<AuditTemuan>> getTemuanAuditList(string search, string role, string id_auditor, string id_auditee);
         public Task<AuditTemuan> TemuanAuditRow(AuditTemuan filter);

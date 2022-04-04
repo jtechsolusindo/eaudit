@@ -15,7 +15,7 @@ namespace EAudit.DAO.AuditorDao
         {
             _options = options;
         }
-        public async Task<List<Auditor>> getAuditorList(string search)
+        public async Task<List<Auditor>> AuditorList(string search)
         {
             DBOutput output = new DBOutput();
             output.status = true;
@@ -85,7 +85,7 @@ namespace EAudit.DAO.AuditorDao
 
         }
 
-        public async Task<Auditor> getAuditorRow(Auditor filter)
+        public async Task<Auditor> AuditorRow(Auditor filter)
         {
             DBOutput output = new DBOutput();
             output.status = true;

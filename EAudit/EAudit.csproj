@@ -10,20 +10,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Controllers\Modules\Report\**" />
     <Compile Remove="Migrations\**" />
+    <Content Remove="Controllers\Modules\Report\**" />
     <Content Remove="Migrations\**" />
+    <EmbeddedResource Remove="Controllers\Modules\Report\**" />
     <EmbeddedResource Remove="Migrations\**" />
+    <None Remove="Controllers\Modules\Report\**" />
     <None Remove="Migrations\**" />
   </ItemGroup>
 
   <ItemGroup>
     <Compile Remove="DAO\MSSQLDataAccess.cs" />
-    <Compile Remove="Views\Login\index.cshtml.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Remove="Views\Login\index.cshtml" />
-    <Content Remove="Views\Person\PersonEdit.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -39,11 +37,6 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="6.0.0" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.3" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Controllers\Modules\Report\" />
-    <Folder Include="Views\Login\" />
   </ItemGroup>
 
 </Project>

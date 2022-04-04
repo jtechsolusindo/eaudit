@@ -16,7 +16,7 @@ namespace EAudit.DAO.PegawaiDao
             _options = options;
         }
 
-        public async Task<List<Pegawai>> getPegawaiUnassigned(string search)
+        public async Task<List<Pegawai>> AuditorUnassigned(string search)
         {
 
             DBOutput output = new DBOutput();
@@ -24,6 +24,18 @@ namespace EAudit.DAO.PegawaiDao
 
             DBAccess dbAccess = new DBAccess(_options);
             List<Pegawai> list = await dbAccess.ExecuteReaderAsync<Pegawai>("SP_GET_KARYAWAN_NOT_ASSIGNED");
+
+            return list;
+        }
+
+        public async Task<List<Pegawai>> AuditeeUnassigned(string search)
+        {
+
+            DBOutput output = new DBOutput();
+            output.status = true;
+
+            DBAccess dbAccess = new DBAccess(_options);
+            List<Pegawai> list = await dbAccess.ExecuteReaderAsync<Pegawai>("SP_UNASIGNED_AUDITEE");
 
             return list;
         }

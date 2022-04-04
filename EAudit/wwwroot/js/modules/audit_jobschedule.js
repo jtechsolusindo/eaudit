@@ -244,8 +244,14 @@ $(document).on(EVENT_CLICK, '.modal-footer #btnCancel', function () {
     vmNet.modal.razorModal.hide(modalId);
 });
 
-$(document).off(EVENT_CLICK, '#btnSave');
-$(document).on(EVENT_CLICK, '#btnSave', function (e) {
+
+
+
+$("#formTambah").submit(function (e) {
+    e.preventDefault();
+    var formData = new FormData(this);
+    if (!confirm('Apakah Anda yakin?')) return false;
+
     let saveUri = '/api/audit/scheduler/penugasan/save';
     var id_auditor_array = $("#txtIdAuditor").val();
     console.log(id_auditor_array);
@@ -255,6 +261,7 @@ $(document).on(EVENT_CLICK, '#btnSave', function (e) {
         ID: $("#txtID").val() == "" ? null : $("#txtID").val(),
         TANGGAL: $("#txtTglKegiatan").val(),
         ID_AUDITEE: parseInt($("#txtIdAuditee").val()),
+        NAMA_UNIT: $("#txtIdAuditee option:selected").text(),
         WS: $("#txtJamMulai").val(),
         WE: $("#txtJamAkhir").val(),
         ID_AUDITOR: id_auditor_str

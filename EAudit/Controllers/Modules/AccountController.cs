@@ -63,7 +63,8 @@ namespace EAudit.Modules.Controllers
                                     new Claim("email", userInfo.EMAIL == null ? "localhost":userInfo.EMAIL),
                                     new Claim("role", userInfo.ROLE),
                                     new Claim("id_auditor", userInfo.ID_AUDITOR!=null?userInfo.ID_AUDITOR.Value.ToString():""),
-                                    new Claim("id_auditee", userInfo.ID_AUDITEE!=null?userInfo.ID_AUDITEE.Value.ToString():"")
+                                    new Claim("id_auditee", userInfo.ID_AUDITEE!=null?userInfo.ID_AUDITEE.Value.ToString():""),
+                                    new Claim("prodi", userInfo.PRODI!=null?userInfo.PRODI.ToString():""),
                                 }, CookieAuthenticationDefaults.AuthenticationScheme);
                     var principal = new ClaimsPrincipal(identity);
                     var login = HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);

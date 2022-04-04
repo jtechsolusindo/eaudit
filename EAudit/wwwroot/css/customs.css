@@ -545,3 +545,11 @@ span.select2-selection{
 .sidebar-mini .main-sidebar.sidebar-dark-primary .nav-flat .nav-link {
     color: #fff
 }
+
+.noty_theme__metroui.noty_bar .noty_body {
+    font-size: 18px;
+}
+
+#noty_layout__center {
+    width: 500px !important;
+}

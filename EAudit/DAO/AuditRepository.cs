@@ -16,6 +16,20 @@ namespace EAudit.DAO
             _options = options;
         }
 
+        public async Task<List<Dashboard>> DashboardList()
+        {
+            ArrayList listParameters = new ArrayList();
+            string query = @"SELECT d.*, CONVERT(varchar, TANGGAL, 110) as TANGGAL FROM dbo.TBL_DASHBOARD d";
+            DBOutput output = new DBOutput();
+            SqlParameter[] parameters = listParameters.ToArray(typeof(SqlParameter)) as SqlParameter[];
+            output.status = true;
+            DBAccess dbAccess = new DBAccess(_options);
+            List<Dashboard> list = await dbAccess.ExecuteAsync<Dashboard>(query);
+            return list;
+        }
+
+
+
         //SECTION TEMUAN AUDIT
         // MENAMPILKAN TEMUAN AUDIT
         public async Task<List<AuditTemuan>> getTemuanAuditList(string search, string role, string id_auditor, string id_auditee)

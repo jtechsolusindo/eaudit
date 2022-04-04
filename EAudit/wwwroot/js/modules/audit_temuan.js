@@ -531,7 +531,7 @@ function get_standar_spmi(value = "") {
             for (var idx = 0; idx < res.length; idx++) {
                 results.push({
                     id: res[idx].ID,
-                    text: res[idx].NOSTANDAR,
+                    text: res[idx].NOSTANDAR +" - "+ res[idx].PERNYATAAN,
                 });
             }
             $.when($("#input_no_standar").select2({ data: results })).done(function () {

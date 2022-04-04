@@ -7,34 +7,7 @@
 <div class="content">
     <div class="container-fluid">
 
-         <div class="row">
-            <div class="col-md-12">
-                <form class="form-horizontal" id="frmFilter">
-                    <div class="card card-default card-sm">
-                        <div class="card-header card-header-sm">
-                            <h3 class="card-title">Pencarian</h3>
-
-                        </div>
-                        <!-- /.card-header -->
-                        <div class="card-body card-body-sm">
-                            <div class="form-group row form-group-sm">
-                                <label for="inputSearch" class="col-sm-2 col-form-label col-form-label-sm">Cari</label>
-                                <div class="col-sm-10">
-                                    <input type="text" name="inputSearch" class="form-control form-control-sm text-xs" id="inputSearch" placeholder="@ViewData["placeHolderFilter"]">
-                                </div>
-                            </div>
-                        </div>
-                        <!-- /.card-body -->
-                        <div class="card-footer">
-                            <button type="submit" class="btn btn-primary btn-sm">Cari</button>
-                            <button type="button" class="btn btn-default btn-sm" id="btnFilterClear">Reset</button>
-                        </div>
-                    </div>
-                    <!-- /.card -->
-                </form>
-            </div>
-        </div>
-
+        <partial view-data="ViewData" name="~/Views/Shared/Filter/Filter_1Field.cshtml" />
         <div class="row">
             <div class="col-md-12">
                 <div class="card card-default card-sm">

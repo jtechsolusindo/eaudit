@@ -8,5 +8,6 @@
         public string email { get; set; }
         public string npp { get; set; }
         public string role { get; set; }
+        public string prodi { get; set; }
     }
 }

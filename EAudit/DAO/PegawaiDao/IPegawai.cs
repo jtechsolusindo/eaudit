@@ -6,6 +6,8 @@ namespace EAudit.DAO.PegawaiDao
 {
     public interface IPegawai
     {
-        public Task<List<Pegawai>> getPegawaiUnassigned(string search);
+        public Task<List<Pegawai>> AuditorUnassigned(string search);
+
+        public Task<List<Pegawai>> AuditeeUnassigned(string search);
     }
 }

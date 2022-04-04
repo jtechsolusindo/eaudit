@@ -13,5 +13,7 @@
         public string NAMA_UNIT { get; set; }
         public string KODE_UNIT { get; set; }
         public string NAMA_LENGKAP_GELAR { get; set; }
+
+        public string SINGKATAN { get; set; }
     }
 }

@@ -6,18 +6,6 @@ $(document).ready(function () {
     vmAuditor.grid.init();
 });
 
-function jsonObjectToSelect2(jsonObject) {
-    console.log(jsonObject);
-    let results = [];
-    for (var idx = 0; idx < jsonObject.length; idx++) {
-        results.push({
-            id: jsonObject[idx].npp,
-            text: jsonObject[idx].nama,
-        });
-    }
-    return results;
-    // console.log(results);
-}
 function clearForms() {
     $("#txtID").val(null);
     $("#txtNPP").val(null).trigger('change');
@@ -52,7 +40,7 @@ let vmAuditor = {
                         vmNet.modal.razorModal.show("#kiModalContainer", 'Tambah Auditor');
                         clearForms();
                         $('#kiModalContainer').modal('show');
-                        get_pegawai_unassigned();
+                        get_auditor_unassigned();
                         // vmNet.goToURL("/configuration/person/auditor/add");
                     }
                 },
@@ -159,10 +147,17 @@ let vmAuditor = {
         }
     }
 };
+
 $("#frmFilter").on('submit', (function (e) {
     e.preventDefault();
     vmAuditor.grid.redraw();
 }));
+
+$(document).off(EVENT_CLICK, '#btnFilterClear');
+$(document).on(EVENT_CLICK, '#btnFilterClear', function (e) {
+    _setVal('inputSearch', null);
+    vmAuditor.grid.redraw();
+});
 
 function doDeleteAuditor(postData) {
     $.when(vmNet.ajax.post('/api/auditor/delete', postData)).done(function (e) {
@@ -202,7 +197,7 @@ $(document).on(EVENT_CLICK, '.edit', function (e) {
             $("#txtKode").val(res.KODE);
             $("#txtProgramStudi").val(res.PRODI);
             $("#txtEmail").val(res.EMAIL);
-            get_pegawai_unassigned(res.NPP, res.NAMA_LENGKAP_GELAR);
+            get_auditor_unassigned(res.NPP, res.NAMA_LENGKAP_GELAR);
         },
         error: function (e) {
             show_error_ajax(e.status);
@@ -214,11 +209,7 @@ $(document).on(EVENT_CLICK, '.edit', function (e) {
     console.log(data);
 });
 
-$(document).off(EVENT_CLICK, '#btnFilterClear');
-$(document).on(EVENT_CLICK, '#btnFilterClear', function (e) {
-    _setVal('inputSearch', null);
-    vmAuditor.grid.redraw();
-});
+
 
 
 
@@ -258,11 +249,11 @@ $("#formTambah").submit(function (e) {
     });
 });
 
-function get_pegawai_unassigned(value="",nama="") {
+function get_auditor_unassigned(value="",nama="") {
     show_loading();
     $.ajax({
         dataType: "json",
-        url: "/api/pegawai_unassigned_opsi",
+        url: "/api/auditor_unassigned_opsi",
         success: function (res) {
             if (value != "") {
                 res.push({

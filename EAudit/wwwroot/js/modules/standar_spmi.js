@@ -192,8 +192,11 @@ $(document).on(EVENT_CLICK, '.modal-footer #btnCancel', function () {
     vmNet.modal.razorModal.hide(modalId);
 });
 
-$(document).off(EVENT_CLICK, '#btnSave');
-$(document).on(EVENT_CLICK, '#btnSave', function (e) {
+
+$("#formTambah").submit(function (e) {
+    e.preventDefault();
+    var formData = new FormData(this);
+    if (!confirm('Apakah Anda yakin?')) return false;
     let saveUri = '/api/configuration/lookup/standar_spmi/save';
 
     let postData = {
@@ -211,4 +214,3 @@ $(document).on(EVENT_CLICK, '#btnSave', function (e) {
         }
     });
 });
-

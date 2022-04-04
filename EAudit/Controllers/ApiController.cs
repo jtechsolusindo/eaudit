@@ -1,5 +1,4 @@
 ﻿using E_AuditInternal.Services;
-using EAudit.Controllers.Modules;
 using EAudit.DAO;
 using EAudit.DAO.AuditeeDao;
 using EAudit.DAO.AuditorDao;
@@ -56,7 +55,7 @@ namespace EAudit.Controllers
                 var req = Request.Form;
                 if (req.ContainsKey("inputSearch")) search = req["inputSearch"];
             }
-            List<Auditor> list_data = await _auditorRepository.getAuditorList(search);
+            List<Auditor> list_data = await _auditorRepository.AuditorList(search);
             var json = System.Text.Json.JsonSerializer.Serialize(list_data);
             return Ok(json);
         }
@@ -99,7 +98,7 @@ namespace EAudit.Controllers
             {
                 filter.ID = int.Parse(id);
             }
-            Auditor data = await _auditorRepository.getAuditorRow(filter);
+            Auditor data = await _auditorRepository.AuditorRow(filter);
             var json = System.Text.Json.JsonSerializer.Serialize(data);
             return Ok(json);
         }
@@ -128,11 +127,83 @@ namespace EAudit.Controllers
         [Route("auditee/list")]
         public async Task<IActionResult> AuditeeList()
         {
-            List<Auditee> list_data = await _auditeeRepository.getAuditeeList("");
+
+            var search = "";
+            if (Request.ContentType != null)
+            {
+                var req = Request.Form;
+                if (req.ContainsKey("inputSearch")) search = req["inputSearch"];
+            }
+            UserLoggedIn _userLoggedIn = CommonHelper.userLoggedIn((ClaimsIdentity)User.Identity);
+            string id_auditor = _userLoggedIn.id_auditor;
+            string id_auditee = _userLoggedIn.id_auditee;
+            string role = _userLoggedIn.role;
+            List<Auditee> list_data = await _auditeeRepository.AuditeeList(search,role,id_auditor,id_auditee);
             var json = System.Text.Json.JsonSerializer.Serialize(list_data);
             return Ok(json);
         }
-        
+
+        [Route("auditee/save")]
+        public IActionResult AuditeeSave()
+        {
+            AjaxResponse response = new AjaxResponse();
+            try
+            {
+                var req = Request.Form;
+                Auditee data = new Auditee();
+                if (req.ContainsKey("id_edit"))
+                {
+                    if (!string.IsNullOrEmpty(req["id_edit"])) data.ID = int.Parse(req["id_edit"]);
+                }
+                if (req.ContainsKey("id_unit")) data.ID_UNIT = int.Parse(req["id_unit"]);
+                if (req.ContainsKey("singkatan")) data.SINGKATAN = req["singkatan"].ToString();
+                if (req.ContainsKey("nama_auditee")) data.NAMA = req["nama_auditee"].ToString();
+                _auditeeRepository.AuditeeSave(data);
+                response.result = "ok";
+                response.message = "Auditee Berhasil Disimpan.";
+            }
+            catch (Exception e)
+            {
+                response.result = "error";
+                response.message = e.Message;
+            }
+
+            return Ok(response);
+        }
+
+        [Route("auditee/detail/{id}")]
+        public async Task<IActionResult> AuditeeRow(string id)
+        {
+            Auditee filter = new Auditee();
+            if (!string.IsNullOrEmpty(id))
+            {
+                filter.ID = int.Parse(id);
+            }
+            Auditee data = await _auditeeRepository.AuditeeRow(filter);
+            var json = System.Text.Json.JsonSerializer.Serialize(data);
+            return Ok(json);
+        }
+
+
+        [HttpPost]
+        [Route("auditee/delete")]
+        public IActionResult AuditeeDelete([FromBody] Auditee data)
+        {
+            AjaxResponse response = new AjaxResponse();
+            try
+            {
+                _auditeeRepository.AuditeeDelete(data);
+                response.result = "ok";
+                response.message = "Auditee Berhasil Dihapus.";
+            }
+            catch (Exception e)
+            {
+                response.result = "ok";
+                response.message = e.Message;
+            }
+
+            return Ok(response);
+        }
 
         // STANDAR SPMI
         [Route("standar_spmi/list")]
@@ -166,18 +237,34 @@ namespace EAudit.Controllers
             return Ok(json);
         }
 
-
-        //PEGAWAI
-        [Route("pegawai_unassigned_opsi")]
-        public async Task<IActionResult> PegawaiUnassigned()
+        // Pegawai
+        [Route("auditor_unassigned_opsi")]
+        public async Task<IActionResult> AuditorUnassigned()
         {
-            List<Pegawai> list_data = await _pegawaiRepository.getPegawaiUnassigned("");
+            List<Pegawai> list_data = await _pegawaiRepository.AuditorUnassigned("");
             List<dynamic> list_data_fix= new List<dynamic>();
 
             for (int i = 0; i < list_data.Count; i++)
             {
                 SelectOption dataTemp = new SelectOption();
                 dataTemp.id = list_data[i].NPP;
+                dataTemp.text = list_data[i].NAMA;
+                list_data_fix.Add(dataTemp);
+            }
+            var json = System.Text.Json.JsonSerializer.Serialize(list_data_fix);
+            return Ok(json);
+        }
+
+        [Route("auditee_unassigned_opsi")]
+        public async Task<IActionResult> AuditeeUnassigned()
+        {
+            List<Pegawai> list_data = await _pegawaiRepository.AuditeeUnassigned("");
+            List<dynamic> list_data_fix = new List<dynamic>();
+
+            for (int i = 0; i < list_data.Count; i++)
+            {
+                SelectOption dataTemp = new SelectOption();
+                dataTemp.id = list_data[i].ID_UNIT.ToString();
                 dataTemp.text = list_data[i].NAMA;
                 list_data_fix.Add(dataTemp);
             }

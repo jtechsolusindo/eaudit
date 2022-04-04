@@ -51,6 +51,7 @@ namespace EAudit.Controllers
             ViewBag.IdAuditor = _userLoggedIn.id_auditor;
             ViewBag.IdAuditee = _userLoggedIn.id_auditee;
             ViewBag.Role = _userLoggedIn.role;
+            ViewBag.Prodi = _userLoggedIn.prodi;
             ViewBag.Title = "Dashboard " + _userLoggedIn.role;
             MenuBuilder menuBuilder = new MenuBuilder();
             ViewBag.Menus = menuBuilder.renderMenuList(_userLoggedIn.role);

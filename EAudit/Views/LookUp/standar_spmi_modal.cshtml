@@ -4,8 +4,9 @@
             <div class="modal-header">
                 <h4 class="modal-title" id="modalHeader">Default Modal</h4>
             </div>
+             <form class="form-horizontal" method="post" role="form" id="formTambah">
             <div class="modal-body">
-                <form class="form-horizontal" method="post" role="form" id="formTambah">
+               
                     @Html.AntiForgeryToken()
 
                     <div class="form-group row form-group-sm">
@@ -13,7 +14,7 @@
                         <div class="col-sm-9">
                             <input type="hidden" name="txtId" class="form-control form-control-sm" id="txtId">
                             <input type="text" name="txtNoStandar" class="form-control form-control-sm" id="txtNoStandar"
-                                   placeholder="No Standar">
+                                   placeholder="No Standar" required>
                         </div>
                     </div>
 
@@ -21,7 +22,7 @@
                         <label for="txtPernyataan" class="col-sm-3 col-form-label col-form-label-sm">Pernyataan Standar</label>
                         <div class="col-sm-9">
                             <textarea name="txtPernyataan" class="form-control form-control-sm" id="txtPernyataan"
-                                   placeholder="Pernyataan"></textarea>
+                                   placeholder="Pernyataan" required></textarea>
                         </div>
                     </div>
 
@@ -29,18 +30,18 @@
                         <label for="txtIndikator" class="col-sm-3 col-form-label col-form-label-sm">Indikator Kerja</label>
                         <div class="col-sm-9">
                             <textarea name="txtIndikator" class="form-control form-control-sm" id="txtIndikator"
-                                   placeholder="Indikator"></textarea>
+                                   placeholder="Indikator" required></textarea>
                         </div>
                     </div>
 
-                </form>
             </div>
 
             <div class="modal-footer">
-                <button type="button" id="btnSave" class="btn btn-success btn-sm">Simpan</button>
+                <button type="submit" class="btn btn-success btn-sm">Simpan</button>
                 <button type="button" id="btnCancel" class="btn btn-default btn-sm">Batal</button>
             </div>
-
+            
+            </form>
         </div>
         <!-- /.modal-content -->
     </div>

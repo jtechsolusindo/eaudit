@@ -1,43 +1,34 @@
 ﻿var tableDOM = $("#gridAuditee");
 var modalId = '#modalAuditee';
 
-var filters = {
-    searchType: 'Auditee',
-    search: _getVal('inputSearch')
-}
-
+var filters = {}
 $(document).ready(function () {
     vmAuditee.grid.init();
 });
 
-function jsonObjectToSelect2(jsonObject) {
-    console.log(jsonObject);
-    let results = [];
-    for (var idx = 0; idx < jsonObject.length; idx++) {
-        results.push({
-            id: jsonObject[idx].npp,
-            text: jsonObject[idx].nama,
-        });
-    }
-    return results;
-    // console.log(results);
-}
 function clearForms() {
     $("#txtID").val(null);
-    $("#txtUnitAuditee").val(null).trigger('change');
-    $("#txtSingkatanResmi").val(null);
-    $("#txtNamaAuditee").val(null);
+    $("#formTambah").trigger('reset');
 }
+
 let vmAuditee = {
     grid: {
         redraw: function () {
-            filters.search = _getVal('inputSearch');
-            filters.searchType = 'Auditee';
+            filters = {}
+            var formData = new FormData($("#frmFilter")[0]);
+            for (var [key, value] of formData.entries()) {
+                filters[key] = value;
+            }
 
             tableDOM.DataTable().ajax.reload();
             tableDOM.DataTable().draw(true);
         },
         init: function () {
+            filters = {}
+            var formData = new FormData($("#frmFilter")[0]);
+            for (var [key, value] of formData.entries()) {
+                filters[key] = value;
+            }
             dtTableExportButtons = [
                 {
                     "text": 'Auditee Baru',
@@ -46,18 +37,11 @@ let vmAuditee = {
                         "data-target": modalId
                     },
                     "action": function (e, dt, node, config) {
-                        $.when(vmNet.ajax.post('/configuration/person/auditee/add_modal', { 'mode': 'new' })).done(function (e) {
-                            if (e.isValid === false) {
-                                vmNet.notification.show(e.message, MSG_ERROR, BLANK_STRING);
-                            } else {
-                                vmNet.modal.makeDraggable = true;
-                                vmNet.modal.razorModal.show(modalId, 'Tambah Auditee');
-
-                                $.when($("#txtUnitAuditee").select2({ data: jsonObjectToSelect2(e.globalData.employeeUnassigned) })).done(function (e) {
-                                    clearForms();
-                                });
-                            }
-                        });
+                        clearForms();
+                        vmNet.modal.makeDraggable = true;
+                        vmNet.modal.razorModal.show(modalId, 'Tambah Auditee');
+                        get_auditee_unassigned();
+                        
                         // vmNet.goToURL("/configuration/person/auditee/add");
                     }
                 },
@@ -82,15 +66,14 @@ let vmAuditee = {
                 "scrollX": true,
                 "responsive": true,
                 "ajax": {
-                    "url": "/api/configuration/person/auditee",
+                    "url": "/api/auditee/list",
                     "type": "POST",
                     "dataType": "json",
-                    "contentType": "application/json;charset=utf-8",
                     "dataSrc": function (data) {
                         return data;
                     },
                     'data': function (data) {
-                        return JSON.stringify(filters);
+                        return filters;
                     }
                 },
 
@@ -155,14 +138,18 @@ let vmAuditee = {
     }
 };
 
-$(document).off(EVENT_CLICK, '#btnFilterSearch');
-$(document).on(EVENT_CLICK, '#btnFilterSearch', function (e) {
-
+$("#frmFilter").on('submit', (function (e) {
+    e.preventDefault();
     vmAuditee.grid.redraw();
-})
+}));
+$(document).off(EVENT_CLICK, '#btnFilterClear');
+$(document).on(EVENT_CLICK, '#btnFilterClear', function (e) {
+    _setVal('inputSearch', null);
+    vmAuditee.grid.redraw();
+});
 
 function doDeleteauditee(postData) {
-    $.when(vmNet.ajax.post('/api/configuration/person/auditee/delete', postData)).done(function (e) {
+    $.when(vmNet.ajax.post('/api/auditee/delete', postData)).done(function (e) {
         if (e.result === "ok") {
             vmNet.notification.show(e.message, vmNet.message.type.success, RELOAD_NO_REPOST);
         } else {
@@ -186,58 +173,98 @@ $(document).on(EVENT_CLICK, '.delete', function (e) {
 
 $(document).off(EVENT_CLICK, '.edit');
 $(document).on(EVENT_CLICK, '.edit', function (e) {
+    vmNet.modal.razorModal.show(modalId, 'Edit Auditee');
+    clearForms();
     let data = $(this).data();
-    let postData = {
-        'mode': 'edit',
-        ID: data.id,
-        NPP: data.npp
-    };
-    $.when(vmNet.ajax.post('/configuration/person/auditee/edit_modal', postData)).done(function (e) {
-        vmNet.modal.razorModal.show(modalId, 'Edit Auditee');
-
-        let select2DataSource = {
-            data: jsonObjectToSelect2(e.globalData.employeeUnassigned)
+    var id = data.id;
+    show_loading();
+    $.ajax({
+        dataType: "json",
+        url: "/api/auditee/detail/" + id,
+        success: function (res) {
+            $("#input_id_edit").val(res.ID);
+            $("#input_singkatan").val(res.KODE);
+            $("#input_nama_auditee").val(res.NAMA);
+            get_auditee_unassigned(res.ID_UNIT, res.NAMA_UNIT);
+        },
+        error: function (e) {
+            show_error_ajax(e.status);
+        },
+        complete: function () {
+            hide_loading();
         }
-        clearForms();
-        $("#txtUnitAuditee").select2(select2DataSource);
-        $("#txtUnitAuditee").val(e.globalData.auditeeRow.iD_UNIT).trigger('change');
-        $("#txtID").val(e.globalData.auditeeRow.id);
-        $("#txtSingkatanResmi").val(e.globalData.auditeeRow.kode);
-        $("#txtNamaAuditee").val(e.globalData.auditeeRow.nama);
-
     });
-
     console.log(data);
 });
 
-$(document).off(EVENT_CLICK, '#btnFilterClear');
-$(document).on(EVENT_CLICK, '#btnFilterClear', function (e) {
-    _setVal('inputSearch', null);
-    vmAuditee.grid.redraw();
-});
 
 $(document).off(EVENT_CLICK, '.modal-footer #btnCancel');
 $(document).on(EVENT_CLICK, '.modal-footer #btnCancel', function () {
     vmNet.modal.razorModal.hide(modalId);
 });
 
-$(document).off(EVENT_CLICK, '#btnSave');
-$(document).on(EVENT_CLICK, '#btnSave', function (e) {
-    let saveUri = '/api/configuration/person/auditee/save';
 
-    let personData = {
-        ID: $("#txtID").val() == "" ? null : $("#txtID").val(),
-        ID_UNIT: parseInt($("#txtUnitAuditee").val()),
-        SINGKATAN: $("#txtSingkatanResmi").val(),
-        NAMA: $("#txtNamaAuditee").val()
-    };
+$("#formTambah").submit(function (e) {
+    e.preventDefault();
+    var formData = new FormData(this);
+    if (!confirm('Apakah Anda yakin?')) return false;
+    $.ajax({
+        type: "POST",
+        url: '/api/auditee/save',
+        contentType: false,
+        processData: false,
+        data: formData,
+        dataType: 'json',
+        beforeSend: function () {
+            show_loading();
+        },
+        success: function (res) {
+            if (res.result == "ok") {
+                vmNet.notification.show(res.message, vmNet.message.type.success, RELOAD_NO_REPOST);
+            } else {
+                vmNet.notification.show(res.message, vmNet.message.type.error, BLANK_STRING);
+            }
 
-    $.when(vmNet.ajax.post(saveUri, personData)).done(function (e) {
-        if (e.result === "ok") {
-            vmNet.notification.show(e.message, vmNet.message.type.success, RELOAD_NO_REPOST);
-        } else {
-            vmNet.notification.show(e.message, vmNet.message.type.error, BLANK_STRING);
+        },
+        error: function (e) {
+            show_error_ajax(e.status);
+        },
+        complete: function () {
+            hide_loading();
         }
     });
 });
+
+
+
+function get_auditee_unassigned(value = "", nama = "") {
+    show_loading();
+    $.ajax({
+        dataType: "json",
+        url: "/api/auditee_unassigned_opsi",
+        success: function (res) {
+            if (value != "") {
+                res.push({
+                    id: value,
+                    text: nama,
+                });
+            }
+
+            $.when($("#input_id_unit").select2({ data: res })).done(function () {
+                if (value != "") {
+                    $("#input_id_unit").val(value).trigger('change');
+                }
+
+            });
+
+        },
+        error: function (e) {
+            show_error_ajax(e.status);
+        },
+        complete: function () {
+            hide_loading();
+        }
+    });
+}
+
 
