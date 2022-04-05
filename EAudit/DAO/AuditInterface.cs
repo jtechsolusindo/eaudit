@@ -1,4 +1,5 @@
 ﻿using EAudit.Models;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -8,6 +9,11 @@ namespace EAudit.DAO
     {
         // Dashboard
         public Task<List<Dashboard>> DashboardList();
+
+        public Task<Dashboard> DashboardRow(Dashboard filter);
+        public void DashboardSave(string id_edit, string judul, string tanggal, string keterangan);
+        public void DashboardDelete(string id_dashboard);
+
 
         // Temuan Audit
         public Task<List<AuditTemuan>> getTemuanAuditList(string search, string role, string id_auditor, string id_auditee);
@@ -44,5 +50,9 @@ namespace EAudit.DAO
 
         // logs
         public Task<List<Log>> LogList(string search);
+
+        public void LogSave(string npp, string keteranganLog);
+
+
     }
 }

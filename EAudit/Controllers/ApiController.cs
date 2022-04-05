@@ -614,5 +614,67 @@ namespace EAudit.Controllers
             return Ok(json);
         }
 
+
+        [HttpPost]
+        [Route("dashboard/save")]
+        public IActionResult DashboardSave()
+        {
+            var req = Request.Form;
+            AjaxResponse response = new AjaxResponse();
+            try
+            {
+                _auditRepository.DashboardSave(
+                    req["id_edit"],
+                    req["judul"],
+                    req["tanggal_pembuatan"],
+                    req["keterangan"]
+                );
+                response.result = "ok";
+                response.message = "Data berhasil Disimpan.";
+            }
+            catch (Exception e)
+            {
+                response.result = "error";
+                response.message = e.Message;
+            }
+            return Ok(response);
+        }
+
+        [HttpPost]
+        [Route("dashboard/delete")]
+        public IActionResult DashboardDelete()
+        {
+            var req = Request.Form;
+            AjaxResponse response = new AjaxResponse();
+            try
+            {
+                _auditRepository.DashboardDelete(
+                    req["id"]
+                );
+                response.result = "ok";
+                response.message = "Data Berhasil Dihapus.";
+            }
+            catch (Exception e)
+            {
+                response.result = "error";
+                response.message = e.Message;
+            }
+            return Ok(response);
+        }
+
+        [Route("dashboard/detail/{id}")]
+        public async Task<IActionResult> DashboardRow(string id)
+        {
+            Dashboard filter = new Dashboard();
+            if (!string.IsNullOrEmpty(id))
+            {
+                filter.ID_DASHBOARD = int.Parse(id);
+            }
+            Dashboard data = await _auditRepository.DashboardRow(filter);
+            var json = System.Text.Json.JsonSerializer.Serialize(data);
+            return Ok(json);
+        }
     }
+
+   
 }

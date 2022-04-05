@@ -16,6 +16,7 @@ namespace EAudit.DAO
             _options = options;
         }
 
+        // Dashboard
         public async Task<List<Dashboard>> DashboardList()
         {
             ArrayList listParameters = new ArrayList();
@@ -27,6 +28,76 @@ namespace EAudit.DAO
             List<Dashboard> list = await dbAccess.ExecuteAsync<Dashboard>(query);
             return list;
         }
+        public async void DashboardSave(string id_edit, string judul, string tanggal, string keterangan)
+        {
+            DBOutput output = new DBOutput();
+            output.status = true;
+            DBAccess dbAccess = new DBAccess(_options);
+            string query = "";
+            ArrayList listParameters = new ArrayList();
+            if (!string.IsNullOrEmpty(id_edit))
+            {
+                query = @"UPDATE dbo.TBL_DASHBOARD
+                            SET JUDUL=@judul, TANGGAL=@tanggal, KETERANGAN=@keterangan
+                            WHERE ID_DASHBOARD=@id";
+                listParameters.Add(new SqlParameter("@id", System.Data.SqlDbType.VarChar, 50, id_edit));
+            }
+            else
+            {
+                query = @"DECLARE @id int;
+                                    SELECT @id = MAX(ID_DASHBOARD) + 1 FROM dbo.TBL_DASHBOARD WITH(UPDLOCK, HOLDLOCK);
+
+                                    if (@id is null)
+                                    begin
+                                        set @id = 1
+                                    end
+
+                                    INSERT INTO dbo.TBL_DASHBOARD
+                                    (ID_DASHBOARD, JUDUL, TANGGAL, KETERANGAN)
+                                    VALUES(@id, @judul, @tanggal, @keterangan)";
+            }
+            listParameters.Add(new SqlParameter("@judul", System.Data.SqlDbType.VarChar, 50, judul.ToString()));
+            listParameters.Add(new SqlParameter("@tanggal", System.Data.SqlDbType.VarChar, 50, tanggal.ToString()));
+            listParameters.Add(new SqlParameter("@keterangan", System.Data.SqlDbType.Text, 50, keterangan.ToString()));
+            SqlParameter[] parameters = listParameters.ToArray(typeof(SqlParameter)) as SqlParameter[];
+            await dbAccess.Execute(query, parameters);
+        }
+
+        public async void DashboardDelete(string id)
+        {
+            DBOutput output = new DBOutput();
+            output.status = true;
+            DBAccess dbAccess = new DBAccess(_options);
+
+            string query = @"DELETE FROM dbo.TBL_DASHBOARD
+                                    WHERE ID_DASHBOARD = @id";
+
+            SqlParameter[] parameters = {
+                new SqlParameter("@id", System.Data.SqlDbType.Int, 11, id),
+            };
+            await dbAccess.Execute(query, parameters);
+        }
+        public async Task<Dashboard> DashboardRow(Dashboard filter)
+        {
+            DBOutput output = new DBOutput();
+            output.status = true;
+
+            string query = @"SELECT * FROM dbo.TBL_DASHBOARD
+                            WHERE ID_DASHBOARD = @id";
+
+            SqlParameter[] parameters = {
+                new SqlParameter("@id", System.Data.SqlDbType.Int,10, filter.ID_DASHBOARD.Value.ToString())
+            };
+
+            DBAccess dbAccess = new DBAccess(_options);
+            List<Dashboard> list = await dbAccess.ExecuteAsync<Dashboard>(query, parameters);
+
+            return list[0];
+        }
+
+        //Logs
+
+
 
 
 
@@ -49,7 +120,8 @@ namespace EAudit.DAO
             {
                 query += @" AND t.ID_AUDITOR=@id_auditor";
                 listParameters.Add(new SqlParameter("@id_auditor", System.Data.SqlDbType.VarChar, 50, id_auditor));
-            }else if (role == "Auditee")
+            }
+            else if (role == "Auditee")
             {
                 query += @" AND t.ID_AUDITEE=@id_auditee";
                 listParameters.Add(new SqlParameter("@id_auditee", System.Data.SqlDbType.VarChar, 50, id_auditee));
@@ -173,8 +245,8 @@ namespace EAudit.DAO
 
 
         // MENYIMPAN TANGGAPAN AUDIT
-        public async void TanggapanSave(string id_edit,string jenis,string akarMasalah, string analisis, 
-            string koreksi,string korektif, string tipe,string dokumen, string link, string nama, string idTemuan)
+        public async void TanggapanSave(string id_edit, string jenis, string akarMasalah, string analisis,
+            string koreksi, string korektif, string tipe, string dokumen, string link, string nama, string idTemuan)
         {
             DBOutput output = new DBOutput();
             output.status = true;
@@ -195,7 +267,7 @@ namespace EAudit.DAO
                 var tambahan = "";
                 if (jenis == "doc")
                 {
-                    if(dokumen==null || dokumen == "")
+                    if (dokumen == null || dokumen == "")
                     {
 
                     }
@@ -207,9 +279,9 @@ namespace EAudit.DAO
                 }
                 query = @"UPDATE dbo.TBL_TANGGAPAN
                             SET ID_UNSUR_MANAJEMEN=@UNSUR, ANALISIS=@ANALISIS, KOREKSI=@KOREKSI, KOREKTIF=@KOREKTIF,
-                            TIPE_FILE=@TIPE,"+tambahan+" LINK=@LINK, NAMA_FILE=@NAMA,ID_TEMUAN=@idTemuan WHERE ID_TANGGAPAN=@id";
+                            TIPE_FILE=@TIPE," + tambahan + " LINK=@LINK, NAMA_FILE=@NAMA,ID_TEMUAN=@idTemuan WHERE ID_TANGGAPAN=@id";
                 listParameters.Add(new SqlParameter("@id", System.Data.SqlDbType.VarChar, 50, id_edit));
-               
+
             }
             else
             {
@@ -238,7 +310,7 @@ namespace EAudit.DAO
             listParameters.Add(new SqlParameter("@TIPE", System.Data.SqlDbType.VarChar, 50, tipe));
             listParameters.Add(new SqlParameter("@LINK", System.Data.SqlDbType.VarChar, 200, link));
             listParameters.Add(new SqlParameter("@NAMA", System.Data.SqlDbType.VarChar, 200, nama));
-       
+
             SqlParameter[] parameters = listParameters.ToArray(typeof(SqlParameter)) as SqlParameter[];
             await dbAccess.Execute(query, parameters);
         }
@@ -251,7 +323,8 @@ namespace EAudit.DAO
 
 
             string query = "";
-            if (role == "Admin") {
+            if (role == "Admin")
+            {
                 query = @"SELECT * FROM VIEWTANGGAPANVERIFIKASI WHERE 1=1 ";
             }
             else if (role == "Auditor")
@@ -438,6 +511,26 @@ namespace EAudit.DAO
             DBAccess dbAccess = new DBAccess(_options);
             List<Log> list = await dbAccess.ExecuteAsync<Log>(query, parameters);
             return list;
+        }
+        public async void LogSave(string npp, string keteranganLog)
+        {
+            DBOutput output = new DBOutput();
+            output.status = true;
+            DBAccess dbAccess = new DBAccess(_options);
+            ArrayList listParameters = new ArrayList();
+            string query = @"DECLARE @ID_LOG int;
+                                    SELECT @ID_LOG = MAX(ID_LOG) + 1 FROM dbo.TBL_LOG WITH(UPDLOCK, HOLDLOCK);
+                                    if (@ID_LOG is null)
+                                    begin
+                                        set @ID_LOG = 1
+                                    end
+                                    INSERT INTO dbo.TBL_LOG (ID_LOG, TANGGAL_WAKTU, KETERANGAN, NPP) 
+                                    VALUES(@ID_LOG, @TANGGAL_WAKTU, @KETERANGAN, @NPP); 
+                                    SELECT CAST(SCOPE_IDENTITY() as int)";
+            listParameters.Add(new SqlParameter("@TANGGAL_WAKTU", System.Data.SqlDbType.VarChar, 50, DateTime.Now.ToString()));
+            listParameters.Add(new SqlParameter("@KETERANGAN", System.Data.SqlDbType.Text, 200, keteranganLog.ToString()));
+            SqlParameter[] parameters = listParameters.ToArray(typeof(SqlParameter)) as SqlParameter[];
+            await dbAccess.Execute(query, parameters);
         }
     }
 }

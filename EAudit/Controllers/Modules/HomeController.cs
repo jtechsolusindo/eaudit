@@ -35,6 +35,23 @@ namespace EAudit.Modules.Controllers
             return View();
         }
 
+        public async Task<IActionResult> DetailPengumuman(string id)
+        {
+            if (!User.Claims.Any())
+            {
+                return RedirectToAction("Index", "Welcome");
+                // return RedirectToAction("Login", "Account");
+            }
+            Dashboard filter = new Dashboard();
+            filter.ID_DASHBOARD = int.Parse(id);
+            Dashboard data_dashboard = await _auditRepository.DashboardRow(filter);
+
+            ViewBag.data_dashbord = data_dashboard;
+            this.setupPage();
+            ViewBag.PageDescription = "Detail Pengumuman";
+            return View();
+        }
+
         public IActionResult Privacy()
         {
             return View();

@@ -37,8 +37,7 @@ namespace EAudit.Modules.Controllers
         public async Task<IActionResult> doLogin(string username, string password)
         {
             TempData["username"] = username;
-            List<UserInfo> userLogin = await _authRepository.GetAuth(username, password);
-            //return Json(userLogin);
+            
             if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
             {
                 TempData["err_message"] = "Gagal Login! Username dan Password Tidak Boleh Kosong.";
@@ -46,6 +45,8 @@ namespace EAudit.Modules.Controllers
             }
             else
             {
+                List<UserInfo> userLogin = await _authRepository.GetAuth(username, password);
+                //return Json(userLogin);
                 if (userLogin.Count == 0)
                 {
                     TempData["err_message"] = "Gagal Login! Username dan Password Tidak Dikenal.";

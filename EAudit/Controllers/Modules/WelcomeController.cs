@@ -13,6 +13,7 @@ namespace EAudit.Modules.Controllers
 
         public IActionResult Index()
         {
+            ViewBag.Title = "Welcome :: Audit Internal KPM";
             return View("~/Views/Home/index_landing.cshtml");
         }
     }
