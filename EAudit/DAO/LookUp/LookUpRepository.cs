@@ -58,9 +58,9 @@ namespace EAudit.DAO.LookUp
 
                 SqlParameter[] parameters = {
                 new SqlParameter("@id", System.Data.SqlDbType.VarChar, 10, data.ID.Value.ToString()),
-                new SqlParameter("@nostandar", System.Data.SqlDbType.VarChar, 50, data.NOSTANDAR),
-                new SqlParameter("@pernyataan", System.Data.SqlDbType.VarChar, 50, data.PERNYATAAN),
-                new SqlParameter("@indikator", System.Data.SqlDbType.VarChar, 50, data.INDIKATOR)
+                new SqlParameter("@nostandar", System.Data.SqlDbType.VarChar, 255, data.NOSTANDAR),
+                new SqlParameter("@pernyataan", System.Data.SqlDbType.Text, 255, data.PERNYATAAN),
+                new SqlParameter("@indikator", System.Data.SqlDbType.VarChar, 255, data.INDIKATOR)
             };
                 await dbAccess.ExecuteQuery("SP_STANDARSPMI_UPDATE", parameters);
             }

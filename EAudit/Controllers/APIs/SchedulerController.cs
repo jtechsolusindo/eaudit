@@ -18,8 +18,7 @@ namespace EAudit.Controllers.APIs
         private readonly IEAuditInterface _auditRepository;
         private IAuditor _auditorRepository;
         private readonly IMailService mailService;
-        private static bool is_debug = true;
-        //private static string email_debug = "muzakisyahrul100@gmail.com";
+        private static bool is_debug = false;
         private static string email_debug = "lawrencenoman@gmail.com";
 
         public SchedulerController(IEAuditInterface auditRepository, IMailService mailService, IAuditor auditorRepository)

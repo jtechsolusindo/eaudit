@@ -329,7 +329,7 @@ namespace EAudit.DAO
             }
             else if (role == "Auditor")
             {
-                query = @"SELECT t.*, um.DESKRIPSI, tva.KONFIRMASI,tm.ID_AUDITOR,tm.ID_AUDITEE FROM dbo.TBL_TANGGAPAN t
+                query = @"SELECT t.*,NULL as NAMA_AUDITOR, um.DESKRIPSI, tva.KONFIRMASI,tm.ID_AUDITOR,tm.ID_AUDITEE FROM dbo.TBL_TANGGAPAN t
                         JOIN dbo.TBL_TEMUAN as tm ON tm.ID_TEMUAN=t.ID_TEMUAN
                         JOIN dbo.TBL_UNSUR_MANAJEMEN um ON t.ID_UNSUR_MANAJEMEN = um.ID_UNSUR_MANAJEMEN
                         LEFT OUTER JOIN TBL_VERIFIKASI_AUDITOR tva ON t.ID_TANGGAPAN = tva.ID_TANGGAPAN

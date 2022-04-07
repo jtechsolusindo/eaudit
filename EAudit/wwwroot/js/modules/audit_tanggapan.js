@@ -166,7 +166,11 @@ let vmPenugasan = {
                             return status;
                         }
                     },
-
+                    {
+                        "width": "20%",
+                        "data": "NAMA_AUDITOR",
+                        "visible": role == "Auditee" ? true : false,
+                    },
                     {
                         "searchable": false,
                         "orderable": false,

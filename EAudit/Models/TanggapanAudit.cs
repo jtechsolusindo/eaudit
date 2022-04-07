@@ -30,5 +30,6 @@ namespace EAudit.Models
         public DateTime? TANGGALTANGGAPAN { get; set; }
         public string EMAIL { get; set; }
         public string NAMA { get; set; }
+        public string NAMA_AUDITOR { get; set; }
     }
 }
