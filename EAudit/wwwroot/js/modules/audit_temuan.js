@@ -501,7 +501,7 @@ function get_auditee(value = "") {
             for (var idx = 0; idx < res.length; idx++) {
                 results.push({
                     id: res[idx].ID,
-                    text: res[idx].NAMA,
+                    text: res[idx].NAMA_UNIT,
                 });
             }
             $.when($("#input_auditee").select2({ data: results })).done(function () {

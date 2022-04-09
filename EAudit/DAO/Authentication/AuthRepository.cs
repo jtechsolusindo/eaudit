@@ -38,6 +38,21 @@ namespace EAudit.DAO.Authentication
 
             return userLogin;
         }
+
+        public async Task<List<UserInfo>> GetUserList(string npp)
+        {
+            DBOutput output = new DBOutput();
+            output.status = true;
+            SqlParameter[] parameters = {
+                new SqlParameter("@npp", System.Data.SqlDbType.VarChar, 50, npp.ToString()),
+            };
+
+            DBAccess dbAccess = new DBAccess(_options);
+            List<UserInfo> userLogin = await dbAccess.ExecuteReaderAsync<UserInfo>("SP_GET_USER_BY_NPP", parameters);
+
+            return userLogin;
+        }
+
         public async Task SaveLog(string keterangan, string npp)
         {
             SqlParameter[] parameters = {

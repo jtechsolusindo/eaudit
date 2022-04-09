@@ -35,10 +35,20 @@ namespace EAudit.DAO.AuditeeDao
             
             if (role == "Auditor")
             {
-                Auditor filter = new Auditor();
-                filter.ID = int.Parse(id_auditor);
-                Auditor data = await _auditorRepository.AuditorRow(filter);
-                query  += @" AND a.ID_UNIT=" + data.ID_UNIT;
+                //Auditor filter = new Auditor();
+                //filter.ID = int.Parse(id_auditor);
+                //Auditor data = await _auditorRepository.AuditorRow(filter);
+                //query  += @" AND a.ID_UNIT=" + data.ID_UNIT;
+
+                //Auditee filter = new Auditee();
+                //filter.ID = int.Parse(id_auditee);
+                //Auditor data = await _auditorRepository.AuditorRow(filter);
+                //query += @" AND a.ID_UNIT=" + data.ID_UNIT;
+
+                query += @" AND a.ID_UNIT =(SELECT b.ID_UNIT FROM TBL_JADWAL_KEGIATAN a 
+                            JOIN TBL_AUDITEE b ON a.ID_AUDITEE=b.ID_AUDITEE 
+                            WHERE (SELECT COUNT(splited_data) FROM dbo.SPLIT_STRING(a.ID_AUDITOR_TEXT,'#') 
+                            WHERE splited_data='"+id_auditor+"')=1 ORDER BY a.ID_JADWAL DESC OFFSET 0 ROWS) ";
             }
             query += @" AND (a.NAMA LIKE '%' + COALESCE(@search,'%') + '%' OR
                     k.NAMA_LENGKAP_GELAR LIKE '%' + COALESCE(@search,'%') + '%' OR

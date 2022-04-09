@@ -1,0 +1,21 @@
+﻿@{
+    Layout = "/Views/Shared/_Login.cshtml";
+}
+<div class="login-box">
+    <div class="login-logo">
+        <a href="~/Account/role"><b>Audit Internal</b> KPM</a>
+    </div>
+    <!-- /.login-logo -->
+    <div class="card">
+        <div class="card-body login-card-body pt-5 pb-5">
+            <p class="login-box-msg" style="color:#000;font-size:20px;font-weight:600">Select Role</p>
+             @foreach (var value in ViewBag.list_user)
+                {
+                    <a href="selectrole/@value.ROLE" class="btn btn-primary btn-block">@value.ROLE</a>
+                }
+
+        </div>
+        <!-- /.login-card-body -->
+    </div>
+</div>
+<!-- /.login-box -->
