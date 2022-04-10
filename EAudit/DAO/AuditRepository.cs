@@ -470,8 +470,7 @@ namespace EAudit.DAO
             ArrayList listParameters = new ArrayList();
 
 
-            string query = @"SELECT tva.*,tm.ID_AUDITOR,tm.ID_AUDITEE FROM dbo.TBL_VERIFIKASI_AUDITOR tva LEFT JOIN dbo.TBL_TANGGAPAN tgp ON tva.ID_TANGGAPAN=tgp.ID_TANGGAPAN
-                             LEFT JOIN dbo.TBL_TEMUAN tm ON tm.ID_TEMUAN=tgp.ID_TEMUAN WHERE 1=1 ";
+            string query = @"SELECT * FROM VVERIFIKASI_AUDITOR WHERE 1=1 ";
             if (role == "Auditor")
             {
                 query += @" AND ID_AUDITOR=@id_auditor";
@@ -482,9 +481,9 @@ namespace EAudit.DAO
                 query += @" AND ID_AUDITEE=@id_auditee";
                 listParameters.Add(new SqlParameter("@id_auditee", System.Data.SqlDbType.VarChar, 50, id_auditee));
             }
-            query += @" AND (tva.KONFIRMASI LIKE '%' + COALESCE(@search,'%') + '%' OR
-                                    tva.CATATAN LIKE '%' + COALESCE(@search, '%') + '%' OR
-                                    tva.URAIAN LIKE '%' + COALESCE(@search, '%') + '%')";
+            query += @" AND (KONFIRMASI LIKE '%' + COALESCE(@search,'%') + '%' OR
+                                    CATATAN LIKE '%' + COALESCE(@search, '%') + '%' OR
+                                    URAIAN LIKE '%' + COALESCE(@search, '%') + '%')";
             listParameters.Add(new SqlParameter("@search", System.Data.SqlDbType.VarChar, 50, search));
             DBOutput output = new DBOutput();
             SqlParameter[] parameters = listParameters.ToArray(typeof(SqlParameter)) as SqlParameter[];
@@ -492,6 +491,24 @@ namespace EAudit.DAO
             DBAccess dbAccess = new DBAccess(_options);
             List<VerifikasiAuditor> list = await dbAccess.ExecuteAsync<VerifikasiAuditor>(query, parameters);
             return list;
+        }
+
+        public async Task<VerifikasiAuditor> VerifikasiAuditorRow(string id_verifikasi)
+        {
+            DBOutput output = new DBOutput();
+            output.status = true;
+
+            string query = @"SELECT * FROM VVERIFIKASI_AUDITOR
+                                    WHERE ID_VERIFIKASI = @id";
+
+            SqlParameter[] parameters = {
+                new SqlParameter("@id", System.Data.SqlDbType.Int,10, id_verifikasi.ToString())
+            };
+
+            DBAccess dbAccess = new DBAccess(_options);
+            List<VerifikasiAuditor> list = await dbAccess.ExecuteAsync<VerifikasiAuditor>(query, parameters);
+
+            return list[0];
         }
 
 

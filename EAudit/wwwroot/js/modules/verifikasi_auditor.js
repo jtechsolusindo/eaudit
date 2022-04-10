@@ -70,6 +70,18 @@ let vmAuditor = {
                     },
                     {
                         "width": "30%",
+                        "data": "URAIAN_TEMUAN"
+                    },
+                    {
+                        "width": "30%",
+                        "data": "NAMA_AUDITOR"
+                    },
+                    {
+                        "width": "30%",
+                        "data": "NAMA_UNIT"
+                    },
+                    {
+                        "width": "10%",
                         "data": "KONFIRMASI"
                     },
                     {
@@ -79,7 +91,27 @@ let vmAuditor = {
                     {
                         "width": "30%",
                         "data": "URAIAN"
-                    },
+                    }, {
+                        "searchable": false,
+                        "orderable": false,
+                        "width": "10%",
+                        "data": null,
+                        render: function (data, type, row) {
+                            let actions = [
+                                {
+                                    "class": "edit",
+                                    "label": "Detail",
+                                    "color": "info",
+                                    "icon": "pencil",
+                                    "url": "verifikasi/detail/"+row.ID_VERIFIKASI,
+                                },
+                                
+                            ];
+
+                            let btnLink = vmNet.grid.generateActionLink(actions, row, BLANK_STRING);
+                            return btnLink;
+                        }
+                    }
                 ] // end fo columns
             });
             grid.on('order.dt search.dt', function () {

@@ -1,0 +1,123 @@
+﻿@{
+    VerifikasiAuditor data = ViewBag.data_verifikasi;
+}
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+               
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+
+<div class="content">
+    <div class="container-fluid">
+         
+        <div class="row">
+          
+            <div class="col-lg-12">
+                <a href="~/audit/verifikasi" class="btn btn-danger btn-sm mb-2" type="button" title="Kembali"><i class="fa fa-arrow-left"></i> Kembali</a> 
+                <div class="card card-primary card-outline mt-2">
+                    <div class="card-header text-left">
+                        <h5 class="m-0">Detail Verifikasi</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-12"><h5 class="mb-0 text-bold">INFORMASI TEMUAN</h5><hr /></div>
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col-md-3 text-bold">Nama Auditor <span class="float-right">:</span></div>
+                                    <div class="col-md-9">@data.NAMA_AUDITOR</div>
+                                </div>
+                                 <div class="row">
+                                    <div class="col-md-3 text-bold">Unit Auditee <span class="float-right">:</span></div>
+                                    <div class="col-md-9">@data.NAMA_UNIT</div>
+                                </div>
+                                 <div class="row">
+                                    <div class="col-md-3 text-bold">Uraian Temuan <span class="float-right">:</span></div>
+                                    <div class="col-md-9">@data.URAIAN_TEMUAN</div>
+                                </div>
+                                 <div class="row">
+                                    <div class="col-md-3 text-bold">Jenis Temuan <span class="float-right">:</span></div>
+                                    <div class="col-md-9">@data.JENIS_TEMUAN</div>
+                                </div>
+                                 <div class="row">
+                                    <div class="col-md-3 text-bold">No Standar <span class="float-right">:</span></div>
+                                    <div class="col-md-9">@data.NO_STANDAR</div>
+                                </div>
+                                 <div class="row">
+                                    <div class="col-md-3 text-bold">Pernyataan <span class="float-right">:</span></div>
+                                    <div class="col-md-9">@data.PERNYATAAN</div>
+                                </div>
+                                 <div class="row">
+                                    <div class="col-md-3 text-bold">Tgl Kirim<span class="float-right">:</span></div>
+                                    <div class="col-md-9">@data.TGL_KIRIM_TEMUAN.ToString()</div>
+                                </div>
+                                 <div class="row">
+                                    <div class="col-md-3 text-bold">Tgl Ditanggapi <span class="float-right">:</span></div>
+                                    <div class="col-md-9">@data.TGL_TANGGAPAN.ToString()</div>
+                                </div>
+                            </div>
+                             <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-12"><h5 class="mb-0 text-bold">INFORMASI TANGGAPAN</h5><hr /></div>
+                                </div>
+                                 <div class="row">
+                                    <div class="col-md-3 text-bold">Akar Masalah <span class="float-right">:</span></div>
+                                    <div class="col-md-9">@data.UNSUR_MANAJEMEN</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3 text-bold">Analisis <span class="float-right">:</span></div>
+                                    <div class="col-md-9">@data.ANALISIS</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3 text-bold">Koreksi <span class="float-right">:</span></div>
+                                    <div class="col-md-9">@data.KOREKSI</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3 text-bold">Korektif <span class="float-right">:</span></div>
+                                    <div class="col-md-9">@data.KOREKTIF</div>
+                                </div>
+                                
+                            </div>
+                             <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-12"><h5 class="mb-0 mt-5 text-bold">INFORMASI VERIFIKASI</h5><hr /></div>
+                                </div>
+                                 <div class="row">
+                                    <div class="col-md-3 text-bold">Status <span class="float-right">:</span></div>
+                                    <div class="col-md-9">@data.KONFIRMASI</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3 text-bold">Catatan <span class="float-right">:</span></div>
+                                    <div class="col-md-9">@data.CATATAN</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3 text-bold">Uraian <span class="float-right">:</span></div>
+                                    <div class="col-md-9">@data.URAIAN</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="footer bg-light p-2">
+                        <div class="d-flex justify-content-between">
+                         
+                        </div>
+                    </div>
+                   
+                </div><!-- /.card -->
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+@section JavaScript
+{
+}

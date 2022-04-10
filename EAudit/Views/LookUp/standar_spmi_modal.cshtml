@@ -48,6 +48,42 @@
     <!-- /.modal-dialog -->
 </div>
 
+<div class="modal fade" role="dialog" id="modalImport" data-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modalHeader">Default Modal</h4>
+            </div>
+            <form class="form-horizontal" method="post" asp-controller="Lookup" asp-action="StandarSPMIImport" enctype="multipart/form-data">
+            <div class="modal-body">
+               
+                    @Html.AntiForgeryToken()
+                    <div class="form-group row form-group-sm">
+                        <label for="txtNoStandar" class="col-sm-3 col-form-label col-form-label-sm">File Contoh</label>
+                        <div class="col-sm-9 pt-2">
+                             <a href="~/file_excel/file_contoh_standar_spmi.xls" id="btnCancel" class="btn btn-primary btn-sm">Unduh File Contoh</a>
+                        </div>
+                    </div>
+                    <div class="form-group row form-group-sm">
+                        <label for="txtNoStandar" class="col-sm-3 col-form-label col-form-label-sm">Upload Excel</label>
+                        <div class="col-sm-9 pt-2">
+                            <input type="file" name="file" accept="application/vnd.ms-excel" required />
+                        </div>
+                    </div>
+
+            </div>
+
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-success btn-sm">Proses</button>
+                <button type="button" id="btnCancel" class="btn btn-default btn-sm">Batal</button>
+            </div>
+            
+            </form>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
 @section JavaScript
 {
 

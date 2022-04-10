@@ -505,6 +505,8 @@ var vmNet = {
             for (let idx = 0; idx < args.length; idx++) {
                 if (args[idx].url === null) {
                     uri = noUrl;
+                } else {
+                    uri = args[idx].url;
                 }
                 if (args[idx].icon === null) {
                     args[idx].icon = icon;

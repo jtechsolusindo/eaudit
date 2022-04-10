@@ -44,9 +44,19 @@ let vmStandarSPMI = {
                     }
                 },
                 {
+                    "text": 'Import Excel',
+                    "attr": {
+                        "class": "btn btn-success btn-sm",
+                        "data-target": "#modalImport"
+                    },
+                    "action": function (e, dt, node, config) {
+                        vmNet.modal.razorModal.show("#modalImport", 'Import Excel');
+                    }
+                },
+                {
                     extend: 'excelHtml5',
                     title: "Data Standar SPMI",
-                    text: 'Export Sebagai Excel',
+                    text: 'Export Excel',
                     titleAttr: 'Excel',
                     exportOptions: { columns: [1, 2, 3] }
                 }
@@ -190,6 +200,7 @@ $(document).on(EVENT_CLICK, '#btnFilterClear', function (e) {
 $(document).off(EVENT_CLICK, '.modal-footer #btnCancel');
 $(document).on(EVENT_CLICK, '.modal-footer #btnCancel', function () {
     vmNet.modal.razorModal.hide(modalId);
+    vmNet.modal.razorModal.hide("#modalImport");
 });
 
 

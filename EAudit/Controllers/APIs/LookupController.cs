@@ -4,9 +4,12 @@ using EAudit.DAO.Authentication;
 using EAudit.DAO.LookUp;
 using EAudit.Models;
 using EAudit.ViewModels;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace EAudit.Controllers.APIs
@@ -34,6 +37,33 @@ namespace EAudit.Controllers.APIs
             return Ok(json);
         }
 
+        public async Task<IActionResult> StandarSPMIImport(IFormFile file)
+        {
+            var list = new List<LookUp_Standar_SPMI>();
+            using(var stream=new MemoryStream())
+            {
+                await file.CopyToAsync(stream);
+                using(var package= new ExcelPackage(stream))
+                {
+                    ExcelWorksheet worksheet = package.Workbook.Worksheets[0];
+                    var rowcount = worksheet.Dimension.Rows;
+                    for (int row=2;row<=rowcount;row++)
+                    {
+                        var data_import = new LookUp_Standar_SPMI
+                        {
+                            NOSTANDAR = worksheet.Cells[row, 1].Value.ToString().Trim(),
+                            PERNYATAAN = worksheet.Cells[row, 2].Value.ToString().Trim(),
+                            INDIKATOR = worksheet.Cells[row, 3].Value.ToString().Trim(),
+                        };
+                        list.Add(data_import);
+                        //_lookupRepository.StandarSPMI_Save(data_import);
+                    }
+                }
+            }
+            return RedirectToAction("index", "StandarSPMI");
+        }
+
+    
         [HttpPost]
         [Route("standar_spmi/save")]
         public IActionResult StandarSPMI_Save([FromBody] LookUp_Standar_SPMI data)
