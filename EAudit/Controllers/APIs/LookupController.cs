@@ -56,7 +56,7 @@ namespace EAudit.Controllers.APIs
                             INDIKATOR = worksheet.Cells[row, 3].Value.ToString().Trim(),
                         };
                         list.Add(data_import);
-                        //_lookupRepository.StandarSPMI_Save(data_import);
+                        _lookupRepository.StandarSPMI_Save(data_import);
                     }
                 }
             }
