@@ -29,7 +29,7 @@ namespace EAudit.Controllers
         private AuditInterface _auditRepository;
         private readonly IWebHostEnvironment _appEnvironment;
         private readonly IMailService mailService;
-        private static bool is_debug = true;
+        private static bool is_debug = false;
         private static string email_debug = "lawrencenoman@gmail.com";
         public ApiController(IWebHostEnvironment appEnvironment, IMailService mailService,
             AuditInterface auditRepository,IAuditor auditorRepository, IAuditee auditeeRepository,
