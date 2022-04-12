@@ -81,7 +81,7 @@ namespace EAudit.Controllers.Modules.Audit
             for (int i = 0; i < auditee.Count; i++)
             {
                 AuditorAuditee auditorAuditee = new AuditorAuditee();
-                auditorAuditee.NAMA = auditee[i].NAMA;
+                auditorAuditee.NAMA = auditee[i].NAMA_UNIT;
                 auditorAuditee.ID = auditee[i].ID;
                 list_auditee.Add(auditorAuditee);
             }

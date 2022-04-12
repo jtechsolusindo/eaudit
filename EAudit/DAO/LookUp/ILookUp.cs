@@ -14,5 +14,7 @@ namespace EAudit.DAO.LookUp
 
         public void StandarSPMI_Delete(LookUp_Standar_SPMI data);
 
+        public void StandarSpmiDeleteAll();
+
     }
 }

@@ -59,6 +59,15 @@ let vmStandarSPMI = {
                     text: 'Export Excel',
                     titleAttr: 'Excel',
                     exportOptions: { columns: [1, 2, 3] }
+                },
+                {
+                    "text": 'Delete All',
+                    "attr": {
+                        "class": "btn btn-danger btn-sm",
+                    },
+                    "action": function (e, dt, node, config) {
+                        delete_all();
+                    }
                 }
             ];
 
@@ -145,11 +154,17 @@ let vmStandarSPMI = {
     }
 };
 
+
 $(document).off(EVENT_CLICK, '#btnFilterSearch');
 $(document).on(EVENT_CLICK, '#btnFilterSearch', function (e) {
 
     vmStandarSPMI.grid.redraw();
 })
+
+function delete_all() {
+    vmNet.dialog.message = "Apakah Anda yakin untuk menghapus Semua Standar SPMI ini ?";
+    vmNet.dialog.confirmation(BUTTON_YES, BUTTON_NO, doDeleteAllStandarSPMI);
+}
 
 $(document).off(EVENT_CLICK, '.delete');
 $(document).on(EVENT_CLICK, '.delete', function (e) {
@@ -164,6 +179,16 @@ $(document).on(EVENT_CLICK, '.delete', function (e) {
 
 function doDeleteStandarSPMI(postData) {
     $.when(vmNet.ajax.post('/api/configuration/lookup/standar_spmi/delete', postData)).done(function (e) {
+        if (e.result === "ok") {
+            vmNet.notification.show(e.message, vmNet.message.type.success, RELOAD_NO_REPOST);
+        } else {
+            vmNet.notification.show(e.message, vmNet.message.type.error, BLANK_STRING);
+        }
+    });
+}
+
+function doDeleteAllStandarSPMI() {
+    $.when(vmNet.ajax.post('/api/configuration/lookup/standar_spmi/delete_all')).done(function (e) {
         if (e.result === "ok") {
             vmNet.notification.show(e.message, vmNet.message.type.success, RELOAD_NO_REPOST);
         } else {

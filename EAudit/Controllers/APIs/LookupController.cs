@@ -113,5 +113,25 @@ namespace EAudit.Controllers.APIs
             return Ok(response);
         }
 
+        [HttpPost]
+        [Route("standar_spmi/delete_all")]
+        public IActionResult StandarSPMI_DeleteAll()
+        {
+            AjaxResponse response = new AjaxResponse();
+            try
+            {
+                _lookupRepository.StandarSpmiDeleteAll();
+                response.result = "ok";
+                response.message = "Semua Standar SPMI Berhasil Dihapus.";
+            }
+            catch (Exception e)
+            {
+                response.result = "ok";
+                response.message = e.Message;
+            }
+
+            return Ok(response);
+        }
+
     }
 }

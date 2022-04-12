@@ -104,5 +104,16 @@ namespace EAudit.DAO.LookUp
 
         }
 
+
+        public async void StandarSpmiDeleteAll()
+        {
+            DBOutput output = new DBOutput();
+            output.status = true;
+            DBAccess dbAccess = new DBAccess(_options);
+
+            string query = @"DELETE FROM dbo.TBL_STANDAR_SPMI";
+            await dbAccess.Execute(query);
+        }
+
     }
 }
