@@ -48,7 +48,7 @@ namespace EAudit.DAO.AuditeeDao
                 query += @" AND a.ID_UNIT =(SELECT b.ID_UNIT FROM TBL_JADWAL_KEGIATAN a 
                             JOIN TBL_AUDITEE b ON a.ID_AUDITEE=b.ID_AUDITEE 
                             WHERE (SELECT COUNT(splited_data) FROM dbo.SPLIT_STRING(a.ID_AUDITOR_TEXT,'#') 
-                            WHERE splited_data='"+id_auditor+"')=1 ORDER BY a.ID_JADWAL DESC OFFSET 0 ROWS) ";
+                            WHERE splited_data='"+id_auditor+ "')=1 ORDER BY a.ID_JADWAL DESC OFFSET 0 ROWS FETCH FIRST 1 ROWS ONLY) ";
             }
             query += @" AND (a.NAMA LIKE '%' + COALESCE(@search,'%') + '%' OR
                     k.NAMA_LENGKAP_GELAR LIKE '%' + COALESCE(@search,'%') + '%' OR

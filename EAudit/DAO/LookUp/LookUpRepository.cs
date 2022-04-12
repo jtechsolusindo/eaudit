@@ -15,8 +15,20 @@ namespace EAudit.DAO.LookUp
         {
             _options = options;
         }
+        public async Task<List<LookUp_Standar_SPMI>> getStandarSPMI_ListByNoStandar(string no_standar)
+        {
+            DBOutput output = new DBOutput();
+            output.status = true;
+            SqlParameter[] parameters = {
+                new SqlParameter("@no_standar", System.Data.SqlDbType.VarChar, 50, no_standar)
+            };
 
-       
+            DBAccess dbAccess = new DBAccess(_options);
+            List<LookUp_Standar_SPMI> list = await dbAccess.ExecuteReaderAsync<LookUp_Standar_SPMI>("SP_STANDARSPMI_LIST_BYNO", parameters);
+            return list;
+        }
+
+
         public async Task<List<LookUp_Standar_SPMI>> getStandarSPMI_List(string search)
         {
             DBOutput output = new DBOutput();
@@ -77,7 +89,7 @@ namespace EAudit.DAO.LookUp
 
 
         }
-
+       
         public async void StandarSPMI_Delete(LookUp_Standar_SPMI data)
         {
             DBOutput output = new DBOutput();

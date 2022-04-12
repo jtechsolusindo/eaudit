@@ -32,10 +32,7 @@ let vmPenugasan = {
             }
 
             var button_export = [];
-            var column_export = [1, 2, 3, 4, 5, 6, 7];
-            if (role == "Auditor") {
-                column_export = [1, 2, 3, 4, 5];
-            }
+            var column_export = [1, 2, 3, 4, 5, 6, 7,8,9];
             button_export.push(
                 {
                     extend: 'excelHtml5',
@@ -53,6 +50,13 @@ let vmPenugasan = {
                     text: 'Export Pdf',
                     titleAttr: 'Pdf',
                     className: 'btn-warning',
+                    modifier: {
+                        // DataTables core
+                        order: 'index', // 'current', 'applied',
+                        //'index', 'original'
+                        page: 'all', // 'all', 'current'
+                        search: 'none' // 'none', 'applied', 'removed'
+                    },
                     exportOptions: { columns: column_export }
                 }
             );
@@ -84,6 +88,7 @@ let vmPenugasan = {
                 'autoWidth': false,
                 "dom": 'Bfrtip',
                 "buttons": dtTableExportButtons,
+               
                 "order": [[0, "desc"]],
                 scrollCollapse: true,
                 fixedColumns: {
@@ -166,10 +171,16 @@ let vmPenugasan = {
                             return status;
                         }
                     },
+                   
                     {
                         "width": "20%",
                         "data": "NAMA_AUDITOR",
                         "visible": role == "Auditee" ? true : false,
+                    },
+                    {
+                        "width": "20%",
+                        "data": "NAMA_UNIT",
+                        "visible": role == "Admin" ? true : false,
                     },
                     {
                         "searchable": false,

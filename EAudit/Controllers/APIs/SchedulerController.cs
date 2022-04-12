@@ -2,11 +2,13 @@
 using EAudit.Controllers.Modules;
 using EAudit.DAO;
 using EAudit.DAO.AuditorDao;
+using EAudit.Helpers;
 using EAudit.Models;
 using EAudit.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace EAudit.Controllers.APIs
@@ -32,7 +34,11 @@ namespace EAudit.Controllers.APIs
         [Route("penugasan")]
         public async Task<IActionResult> AuditorList([FromBody] DataTableFilter filter)
         {
-            List<Audit_JadwalKegiatan> result = await _auditRepository.getAllJadwalKegiatanList(filter.search);
+            UserLoggedIn _userLoggedIn = CommonHelper.userLoggedIn((ClaimsIdentity)User.Identity);
+            string id_auditor = _userLoggedIn.id_auditor;
+            string id_auditee = _userLoggedIn.id_auditee;
+            string role = _userLoggedIn.role;
+            List<Audit_JadwalKegiatan> result = await _auditRepository.getAllJadwalKegiatanList(filter.search,role,id_auditor);
             var json = System.Text.Json.JsonSerializer.Serialize(result);
             return Ok(json);
         }

@@ -8,7 +8,7 @@ namespace EAudit.DAO
     public interface IEAuditInterface
     {
         #region Penugasan
-        public Task<List<Audit_JadwalKegiatan>> getAllJadwalKegiatanList(string search);
+        public Task<List<Audit_JadwalKegiatan>> getAllJadwalKegiatanList(string search,string role,string id_auditor);
         public Task<Audit_JadwalKegiatan> getAllJadwalKegiatanRow(int id);
         public void JadwalKegiatanSave(Audit_JadwalKegiatan data);
         void HapusJadwal(Audit_JadwalKegiatan data);

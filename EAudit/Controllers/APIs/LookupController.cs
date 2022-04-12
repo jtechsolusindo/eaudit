@@ -49,14 +49,23 @@ namespace EAudit.Controllers.APIs
                     var rowcount = worksheet.Dimension.Rows;
                     for (int row=2;row<=rowcount;row++)
                     {
+                        var no_standar = worksheet.Cells[row, 1].Value.ToString().Trim();
+                       
                         var data_import = new LookUp_Standar_SPMI
                         {
-                            NOSTANDAR = worksheet.Cells[row, 1].Value.ToString().Trim(),
+                            NOSTANDAR = no_standar,
                             PERNYATAAN = worksheet.Cells[row, 2].Value.ToString().Trim(),
                             INDIKATOR = worksheet.Cells[row, 3].Value.ToString().Trim(),
                         };
-                        list.Add(data_import);
+
+                        List<LookUp_Standar_SPMI> result = await _lookupRepository.getStandarSPMI_ListByNoStandar(no_standar);
+                        if (result.Count > 0)
+                        {
+                            data_import.ID = result[0].ID;
+                        }
                         _lookupRepository.StandarSPMI_Save(data_import);
+                        list.Add(data_import);
+
                     }
                 }
             }

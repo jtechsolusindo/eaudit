@@ -28,16 +28,22 @@ namespace EAudit.DAO
         /// </summary>
         /// <param name="search"></param>
         /// <returns></returns>
-        public async Task<List<Audit_JadwalKegiatan>> getAllJadwalKegiatanList(string search)
+        public async Task<List<Audit_JadwalKegiatan>> getAllJadwalKegiatanList(string search, string role, string id_auditor)
         {
             DBOutput output = new DBOutput();
             output.status = true;
-            SqlParameter[] parameters = {
-                new SqlParameter("@search", System.Data.SqlDbType.VarChar, 50, search)
-            };
-
+            var table = "SP_JADWALKEGIATAN_LIST";
+            ArrayList listParameters = new ArrayList();
+            listParameters.Add(new SqlParameter("@search", System.Data.SqlDbType.VarChar, 50, search));
+            
+            if (role == "Auditor")
+            {
+                table = "SP_JADWALKEGIATAN_LIST_BYAUDITOR";
+                listParameters.Add(new SqlParameter("@auditor", System.Data.SqlDbType.VarChar, 50, id_auditor));
+            }
+            SqlParameter[] parameters = listParameters.ToArray(typeof(SqlParameter)) as SqlParameter[];
             DBAccess dbAccess = new DBAccess(_options);
-            List<Audit_JadwalKegiatan> list = await dbAccess.ExecuteReaderAsync<Audit_JadwalKegiatan>("SP_JADWALKEGIATAN_LIST", parameters);
+            List<Audit_JadwalKegiatan> list = await dbAccess.ExecuteReaderAsync<Audit_JadwalKegiatan>(table, parameters);
 
             return list;
         }

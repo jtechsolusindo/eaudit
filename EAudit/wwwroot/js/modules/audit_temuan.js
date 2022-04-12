@@ -57,7 +57,7 @@ let vmPenugasan = {
             button_export.push(
                 {
                     extend: 'excelHtml5',
-                    title: "Data Tanggapan Audit",
+                    title: "Data Temuan Audit",
                     text: 'Export Excel',
                     titleAttr: 'Excel',
                     className: 'btn-success',
