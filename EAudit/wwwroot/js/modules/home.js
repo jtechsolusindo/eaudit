@@ -1,7 +1,6 @@
 ﻿
 var modalId = '#modalForm';
 
-
 function clearForms() {
     $("#txtID").val(null);
     $("#formTambah").trigger('reset');
@@ -11,6 +10,9 @@ function show_modal_tambah() {
     clearForms();
     vmNet.modal.makeDraggable = true;
     vmNet.modal.razorModal.show(modalId, 'Tambah Pengumuman');
+    $('#input_keterangan').summernote({
+        height: 200,
+    });
 }
 
 
@@ -59,7 +61,10 @@ function show_modal_edit(id) {
         success: function (res) {
             $("#input_id_edit").val(id);
             $("#input_judul").val(res.JUDUL);
-            $("#input_keterangan").val(res.KETERANGAN);
+            $('#input_keterangan').summernote({
+                height: 200,
+            });
+            $('#input_keterangan').summernote('code', res.KETERANGAN);
             $("#input_tanggal_pembuatan").val(res.TANGGAL).trigger("keyup");
         },
         error: function (e) {

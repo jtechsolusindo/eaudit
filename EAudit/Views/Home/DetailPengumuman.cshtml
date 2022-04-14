@@ -24,7 +24,7 @@
                     </div>
                     <div class="card-body">
                        
-                        <span style="font-size:18px">@ViewBag.data_dashbord.KETERANGAN</span>
+                        <span style="font-size:18px">@Html.Raw(System.Web.HttpUtility.HtmlDecode(ViewBag.data_dashbord.KETERANGAN))</span>
                     </div>
                     <div class="footer bg-light p-2">
                         <div class="d-flex justify-content-between">
