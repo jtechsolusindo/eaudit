@@ -203,7 +203,7 @@ namespace EAudit.DAO
             string query = @"UPDATE TBL_TEMUAN SET SENT=1, SENTDATE=@date WHERE ID_TEMUAN=@idTemuan";
 
             SqlParameter[] parameters = {
-                new SqlParameter("@date", System.Data.SqlDbType.VarChar, 200, DateTime.Now.ToString()),
+                new SqlParameter("@date", System.Data.SqlDbType.VarChar, 200, DateTime.Now.ToString("yyyy-MM-dd h:m:s")),
                 new SqlParameter("@idTemuan", System.Data.SqlDbType.Int, 11, id_temuan),
             };
             await dbAccess.Execute(query, parameters);
@@ -299,7 +299,7 @@ namespace EAudit.DAO
                         UPDATE TBL_TEMUAN SET STATUSTANGGAPAN=@STATUS, TANGGALTANGGAPAN=@TANGGAL 
                         WHERE ID_TEMUAN=@idTemuan";
                 listParameters.Add(new SqlParameter("@STATUS", System.Data.SqlDbType.VarChar, 200, "true"));
-                listParameters.Add(new SqlParameter("@TANGGAL", System.Data.SqlDbType.VarChar, 200, DateTime.Now.ToString()));
+                listParameters.Add(new SqlParameter("@TANGGAL", System.Data.SqlDbType.VarChar, 200, DateTime.Now.ToString("yyyy-MM-dd h:m:s")));
                 listParameters.Add(new SqlParameter("@UPLOAD", System.Data.SqlDbType.VarChar, 50, dokumen));
             }
             listParameters.Add(new SqlParameter("@idTemuan", System.Data.SqlDbType.VarChar, 50, idTemuan));
@@ -398,7 +398,7 @@ namespace EAudit.DAO
             string query = @"UPDATE TBL_TANGGAPAN SET SENT=1, SENTDATE=@date WHERE ID_TANGGAPAN=@idTanggapan";
             SqlParameter[] parameters = {
                 new SqlParameter("@idTanggapan", System.Data.SqlDbType.VarChar,10, id_tanggapan),
-                new SqlParameter("@date", System.Data.SqlDbType.VarChar,200, DateTime.Now.ToString())
+                new SqlParameter("@date", System.Data.SqlDbType.VarChar,200, DateTime.Now.ToString("yyyy-MM-dd h:m:s"))
             };
             await dbAccess.Execute(query, parameters);
 
@@ -428,7 +428,7 @@ namespace EAudit.DAO
 
             SqlParameter[] parameters = {
                 new SqlParameter("@idTanggapan", System.Data.SqlDbType.VarChar,10, id_tanggapan),
-                new SqlParameter("@date", System.Data.SqlDbType.VarChar,200, DateTime.Now.ToString())
+                new SqlParameter("@date", System.Data.SqlDbType.VarChar,200, DateTime.Now.ToString("yyyy-MM-dd h:m:s"))
             };
             await dbAccess.Execute(query, parameters);
         }

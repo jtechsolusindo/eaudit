@@ -56,7 +56,7 @@ namespace EAudit.DAO.Authentication
         public async Task SaveLog(string keterangan, string npp)
         {
             SqlParameter[] parameters = {
-                new SqlParameter("@TANGGAL_WAKTU", System.Data.SqlDbType.DateTime, 50, DateTime.Now.ToString()),
+                new SqlParameter("@TANGGAL_WAKTU", System.Data.SqlDbType.DateTime, 50, DateTime.Now.ToString("yyyy-MM-dd h:m:s")),
                 new SqlParameter("@KETERANGAN", System.Data.SqlDbType.VarChar, 50, keterangan),
                 new SqlParameter("@NPP", System.Data.SqlDbType.VarChar, 50, npp)
             };
