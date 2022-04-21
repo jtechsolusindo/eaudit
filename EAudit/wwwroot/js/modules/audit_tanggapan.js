@@ -180,7 +180,7 @@ let vmPenugasan = {
                     {
                         "width": "20%",
                         "data": "NAMA_UNIT",
-                        "visible": role == "Admin" ? true : false,
+                        "visible": role == "Admin" || role == "Auditor" ? true : false,
                     },
                     {
                         "searchable": false,
@@ -437,6 +437,7 @@ $(document).on(EVENT_CLICK, '.edit', function (e) {
     vmNet.modal.razorModal.show(modalId, 'Ubah Tanggapan');
     $("#formEditTanggapan").trigger("reset");
     let data = $(this).data();
+   
     var id = data.id_tanggapan;
     show_loading();
     $.ajax({
@@ -455,6 +456,11 @@ $(document).on(EVENT_CLICK, '.edit', function (e) {
 
             $("#tgp_id_temuan").val(res.ID_TEMUAN);
             get_akar_masalah(res.ID_UNSUR_MANAJEMEN);
+            if (res.JENIS == "OB") {
+                $("#div_korektif").hide();
+            } else {
+                $("#div_korektif").show();
+            }
         },
         error: function (e) {
             show_error_ajax(e.status);

@@ -385,6 +385,12 @@ $(document).on(EVENT_CLICK, '.tanggapi', function (e) {
     modalId = "#modalTanggapan";
     vmNet.modal.razorModal.show(modalId, 'Tambah Tanggapan');
     let data = $(this).data();
+    //console.log(data);
+    if (data.jenis == "OB") {
+        $("#div_korektif").hide();
+    } else {
+        $("#div_korektif").show();
+    }
     var id = data.id_temuan;
     $("#formEditTanggapan").trigger("reset");
     $("#tgp_id_temuan").val(id);

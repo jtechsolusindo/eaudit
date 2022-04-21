@@ -329,10 +329,12 @@ namespace EAudit.DAO
             }
             else if (role == "Auditor")
             {
-                query = @"SELECT t.*,NULL as NAMA_AUDITOR,null as NAMA_UNIT, um.DESKRIPSI, tva.KONFIRMASI,tm.ID_AUDITOR,tm.ID_AUDITEE FROM dbo.TBL_TANGGAPAN t
+                query = @"SELECT t.*,NULL as NAMA_AUDITOR,unit.NAMA_UNIT, um.DESKRIPSI, tva.KONFIRMASI,tm.ID_AUDITOR,tm.ID_AUDITEE FROM dbo.TBL_TANGGAPAN t
                         JOIN dbo.TBL_TEMUAN as tm ON tm.ID_TEMUAN=t.ID_TEMUAN
                         JOIN dbo.TBL_UNSUR_MANAJEMEN um ON t.ID_UNSUR_MANAJEMEN = um.ID_UNSUR_MANAJEMEN
                         LEFT OUTER JOIN TBL_VERIFIKASI_AUDITOR tva ON t.ID_TANGGAPAN = tva.ID_TANGGAPAN
+	                    JOIN dbo.TBL_AUDITEE as adt ON adt.ID_AUDITEE=tm.ID_AUDITEE
+	                    JOIN siatmax.MST_UNIT as unit ON unit.ID_UNIT=adt.ID_UNIT
                         WHERE t.SENT='1' AND tva.KONFIRMASI IS NULL ";
                 query += @" AND ID_AUDITOR=@id_auditor";
                 listParameters.Add(new SqlParameter("@id_auditor", System.Data.SqlDbType.VarChar, 50, id_auditor));
@@ -360,8 +362,8 @@ namespace EAudit.DAO
             DBOutput output = new DBOutput();
             output.status = true;
 
-            string query = @"SELECT * FROM dbo.TBL_TANGGAPAN
-                                    WHERE ID_TANGGAPAN = @id";
+            string query = @"SELECT a.*,b.JENIS FROM dbo.TBL_TANGGAPAN a JOIN dbo.TBL_TEMUAN b ON b.ID_TEMUAN=a.ID_TEMUAN 
+                                    WHERE a.ID_TANGGAPAN = @id";
 
             SqlParameter[] parameters = {
                 new SqlParameter("@id", System.Data.SqlDbType.Int,10, filter.ID_TANGGAPAN.Value.ToString())
