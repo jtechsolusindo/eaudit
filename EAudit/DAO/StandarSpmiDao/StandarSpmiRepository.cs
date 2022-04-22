@@ -41,7 +41,8 @@ namespace EAudit.DAO.StandarSpmi
                                   tss.NO_STANDAR  AS NOSTANDAR,
                                   tss.PERNYATAAN  AS PERNYATAAN,
                                   tss.INDIKATOR   AS INDIKATOR 
-                                FROM TBL_STANDAR_SPMI tss    
+                                FROM TBL_STANDAR_SPMI tss   
+                                WHERE tss.DELETED='N'
                               ) AS TempTable
                             WHERE 1=1 ";
             query += @" AND (TempTable.PERNYATAAN LIKE '%' + COALESCE(@search,'%') + '%' OR

@@ -100,7 +100,7 @@ namespace EAudit.DAO.LookUp
                 new SqlParameter("@id", System.Data.SqlDbType.VarChar, 10, data.ID.Value.ToString()),
             };
 
-            await dbAccess.ExecuteQuery("SP_STANDARSPMI_DELETE", parameters);
+            await dbAccess.ExecuteQuery("SP_STANDARSPMI_SOFTDELETE", parameters);
 
         }
 
@@ -110,9 +110,12 @@ namespace EAudit.DAO.LookUp
             DBOutput output = new DBOutput();
             output.status = true;
             DBAccess dbAccess = new DBAccess(_options);
-
-            string query = @"DELETE FROM dbo.TBL_STANDAR_SPMI";
+            await dbAccess.Execute("DELETE FROM TBL_STANDAR_SPMI WHERE ID_STANDAR NOT IN(SELECT ID_STANDAR FROM TBL_TEMUAN)");
+            
+            string query = @"UPDATE TBL_STANDAR_SPMI SET DELETED='Y'";
             await dbAccess.Execute(query);
+
+            
         }
 
     }
