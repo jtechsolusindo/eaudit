@@ -275,7 +275,14 @@ let vmPenugasan = {
                                                 "color": "info",
                                                 "icon": "",
                                                 "url": null,
-                                            }
+                                            },
+                                            {
+                                                "class": "delete",
+                                                "label": "",
+                                                "color": "danger",
+                                                "icon": "trash-alt",
+                                                "url": null,
+                                            },
                                         ];
                                         var btnLink = vmNet.grid.generateActionLink(actions, row, BLANK_STRING);
                                         return btnLink;

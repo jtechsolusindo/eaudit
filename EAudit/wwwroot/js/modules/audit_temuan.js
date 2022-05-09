@@ -187,7 +187,6 @@ let vmPenugasan = {
                         "orderable": false,
                         "width": "10%",
                         "data": null,
-                        visible: role=="Admin"?false:true,
                         render: function (data, type, row) {
                             if (role == "Auditor") {
                                 var actions = [
@@ -238,7 +237,18 @@ let vmPenugasan = {
                                     return "<p> Tidak ada Aksi </p>";
                                 }
                             } else {
-                                return "";
+                                var actions = [
+                                    {
+                                        "class": "delete",
+                                        "label": "",
+                                        "color": "danger",
+                                        "icon": "trash-alt",
+                                        "url": null,
+                                    },
+                                ];
+
+                                var btnLink = vmNet.grid.generateActionLink(actions, row, BLANK_STRING);
+                                return btnLink;
                             }
                            
 
